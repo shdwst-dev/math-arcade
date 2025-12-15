@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Arcade: El Desafío</title>
+    <!-- Tailwind CSS para diseño rápido y bonito -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax para mostrar fórmulas matemáticas bonitas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* Estilos personalizados y animaciones */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a202c;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* Animación para la bomba */
+        @keyframes pulse-red {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .bomb-active {
+            animation: pulse-red 1s infinite;
+        }
+
+        /* Estilos para las cartas del memorama */
+        .card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+
+        .card-front {
+            background-color: #2d3748;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .card-back {
+            background-color: #4299e1;
+            color: white;
+            transform: rotateY(180deg);
+            border: 2px solid white;
+        }
+
+        /* Estilos para la carrera */
+        .lane {
+            border-right: 2px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .lane:last-child {
+            border-right: none;
+        }
+
+        #player-car {
+            transition: left 0.2s ease-in-out;
+        }
+
+        .falling-item {
+            transition: top 0.1s linear;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex flex-col">
+
+    <!-- ENCABEZADO -->
+    <header class="bg-gray-900 p-4 shadow-lg border-b border-gray-700 flex justify-between items-center z-50">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl">🧮</span>
+            <h1 class="text-xl font-bold pixel-font text-yellow-400">MATH ARCADE</h1>
+        </div>
+        <div id="top-bar-info" class="hidden flex gap-4 text-sm font-bold">
+            <span id="current-topic-display" class="text-blue-300">Tema: --</span>
+            <span id="score-display" class="text-green-400">Puntos: 0</span>
+        </div>
+        <button onclick="goToMenu()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1 rounded">Salir</button>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DE PANTALLAS -->
+    <main class="flex-grow relative overflow-hidden flex items-center justify-center p-4">
+
+        <!-- PANTALLA 1: SELECCIÓN DE TEMA -->
+        <div id="screen-topic" class="w-full max-w-4xl text-center space-y-8">
+            <h2 class="text-3xl font-bold mb-8">Selecciona tu Misión</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <button onclick="selectTopic('fundamentos')"
+                    class="group bg-blue-900 hover:bg-blue-700 p-8 rounded-xl border-4 border-blue-500 transition-all hover:scale-105">
+                    <div class="text-4xl mb-4">📐</div>
+                    <h3 class="text-xl font-bold">Fundamentos</h3>
+                    <p class="text-sm text-gray-300 mt-2">Álgebra y Aritmética básica</p>
+                </button>
+                <button onclick="selectTopic('diferencial')"
+                    class="group bg-green-900 hover:bg-green-700 p-8 rounded-xl border-4 border-green-500 transition-all hover:scale-105">
+                    <div class="text-4xl mb-4">📉</div>
+                    <h3 class="text-xl font-bold">Cálculo Diferencial</h3>
+                    <p class="text-sm text-gray-300 mt-2">Límites y Derivadas</p>
+                </button>
+                <button onclick="selectTopic('integral')"
+                    class="group bg-purple-900 hover:bg-purple-700 p-8 rounded-xl border-4 border-purple-500 transition-all hover:scale-105">
+                    <div class="text-4xl mb-4">∫</div>
+                    <h3 class="text-xl font-bold">Cálculo Integral</h3>
+                    <p class="text-sm text-gray-300 mt-2">Áreas y Sumas</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 2: SELECCIÓN DE JUEGO -->
+        <div id="screen-game-select" class="hidden w-full max-w-4xl text-center space-y-8">
+            <h2 class="text-3xl font-bold mb-2">Elige el Desafío</h2>
+            <p id="topic-subtitle" class="text-gray-400 mb-6">Tema: ...</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Juego 1: Memorama -->
+                <button onclick="startGame('memory')"
+                    class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-blue-500 opacity-10 group-hover:opacity-20"></div>
+                    <div class="text-3xl mb-3">🃏</div>
+                    <h3 class="font-bold text-lg">Memorama Matemático</h3>
+                    <p class="text-xs text-gray-400 mt-2">Encuentra las parejas (Función y Resultado)</p>
+                </button>
+
+                <!-- Juego 2: Bomba -->
+                <button onclick="startGame('bomb')"
+                    class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-red-500 opacity-10 group-hover:opacity-20"></div>
+                    <div class="text-3xl mb-3">💣</div>
+                    <h3 class="font-bold text-lg">Desactiva la Bomba</h3>
+                    <p class="text-xs text-gray-400 mt-2">Responde rápido antes de que explote</p>
+                </button>
+
+                <!-- Juego 3: Carrera -->
+                <button onclick="startGame('race')"
+                    class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-yellow-500 opacity-10 group-hover:opacity-20"></div>
+                    <div class="text-3xl mb-3">🏎️</div>
+                    <h3 class="font-bold text-lg">Carrera del Saber</h3>
+                    <p class="text-xs text-gray-400 mt-2">Esquiva los errores, atrapa los aciertos</p>
+                </button>
+            </div>
+            <button onclick="goToMenu()" class="mt-8 text-gray-400 underline hover:text-white">Cambiar Tema</button>
+        </div>
+
+        <!-- PANTALLA 3: ÁREA DE JUEGO (GENÉRICA) -->
+        <div id="screen-game-area" class="hidden w-full h-full flex flex-col items-center relative">
+
+            <!-- Contenedor JUEGO: MEMORAMA -->
+            <div id="game-memory" class="hidden w-full max-w-4xl p-4">
+                <div id="memory-grid" class="grid grid-cols-4 gap-4 w-full h-full">
+                    <!-- Las cartas se generan con JS -->
+                </div>
+            </div>
+
+            <!-- Contenedor JUEGO: BOMBA -->
+            <div id="game-bomb" class="hidden w-full max-w-2xl flex flex-col items-center justify-center space-y-6">
+                <div id="bomb-timer"
+                    class="text-6xl pixel-font text-red-500 bg-black px-6 py-2 rounded border-4 border-gray-700 shadow-xl">
+                    00:00</div>
+                <div class="bg-gray-800 p-8 rounded-xl w-full text-center border-2 border-gray-600">
+                    <p class="text-gray-400 text-sm mb-2">Resuelve para cortar el cable:</p>
+                    <div id="bomb-question" class="text-3xl font-bold my-4">$$ \int x dx $$</div>
+                </div>
+                <div id="bomb-wires" class="grid grid-cols-2 gap-4 w-full">
+                    <!-- Cables generados con JS -->
+                </div>
+            </div>
+
+            <!-- Contenedor JUEGO: CARRERA -->
+            <div id="game-race"
+                class="hidden w-full max-w-md h-[500px] bg-gray-800 relative overflow-hidden border-4 border-gray-600 rounded-lg shadow-2xl">
+                <!-- Pistas -->
+                <div class="absolute inset-0 grid grid-cols-3 w-full h-full pointer-events-none">
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                    <div class="lane"></div>
+                </div>
+                <!-- Pregunta actual -->
+                <div
+                    class="absolute top-0 left-0 w-full bg-black/80 text-white p-2 text-center z-10 border-b border-yellow-500">
+                    <span id="race-question" class="font-bold text-lg">?</span>
+                </div>
+                <!-- Jugador -->
+                <div id="player-car" class="absolute bottom-4 w-1/3 flex justify-center text-4xl transition-all">
+                    🏎️
+                </div>
+                <!-- Objetos cayendo (se generan en JS) -->
+                <div id="race-items-container"></div>
+
+                <!-- Controles Táctiles (para celular) -->
+                <div class="absolute bottom-0 w-full h-full flex z-20 opacity-0">
+                    <div class="w-1/2 h-full" onclick="moveCar(-1)"></div>
+                    <div class="w-1/2 h-full" onclick="moveCar(1)"></div>
+                </div>
+                <div class="absolute bottom-2 right-2 text-xs text-gray-500 z-0">Usa Flechas o Toca Lados</div>
+            </div>
+
+        </div>
+
+        <!-- MODAL GAME OVER -->
+        <div id="modal-gameover" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+            <div class="bg-gray-800 p-8 rounded-xl text-center border-2 border-white max-w-md w-full">
+                <h2 id="go-title" class="text-3xl font-bold mb-4 pixel-font text-yellow-400">GAME OVER</h2>
+                <p id="go-message" class="text-xl mb-6">Puntuación Final: 100</p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="restartGame()"
+                        class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded font-bold">Jugar de
+                        Nuevo</button>
+                    <button onclick="goToMenu()"
+                        class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-2 rounded font-bold">Menú</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SCRIPTS DE LÓGICA -->
+    <script>
+        // ------------------------------------------
+        // 1. BASE DE DATOS DE PREGUNTAS (Editable)
+        // ------------------------------------------
+        // Estructura: { pregunta: "TeX code", respuesta: "TeX code" }
+        // Nota: Para TeX usa doble barra invertida \\
+
+        const database = {
+            fundamentos: [
+                { q: "2x = 10", a: "x = 5", distractors: ["x=2", "x=10", "x=0"] },
+                { q: "3^2", a: "9", distractors: ["6", "3", "27"] },
+                { q: "\\sqrt{16}", a: "4", distractors: ["8", "2", "6"] },
+                { q: "x + 5 = 20", a: "x = 15", distractors: ["x=25", "x=5", "x=10"] },
+                { q: "10 / 2", a: "5", distractors: ["20", "2", "10"] },
+                { q: "5x - 5 = 0", a: "x = 1", distractors: ["x=0", "x=5", "x=-1"] }
+            ],
+            diferencial: [
+                { q: "\\frac{d}{dx}(x^2)", a: "2x", distractors: ["x", "2", "x^2"] },
+                { q: "\\frac{d}{dx}(5x)", a: "5", distractors: ["5x", "x", "0"] },
+                { q: "\\frac{d}{dx}(\\sin x)", a: "\\cos x", distractors: ["-\\cos x", "\\sin x", "\\tan x"] },
+                { q: "\\frac{d}{dx}(e^x)", a: "e^x", distractors: ["x e^{x-1}", "0", "1"] },
+                { q: "\\frac{d}{dx}(7)", a: "0", distractors: ["7", "7x", "1"] },
+                { q: "\\frac{d}{dx}(\\cos x)", a: "-\\sin x", distractors: ["\\sin x", "\\cos x", "0"] }
+            ],
+            integral: [
+                { q: "\\int 2x dx", a: "x^2 + C", distractors: ["2x + C", "x + C", "x^3 + C"] },
+                { q: "\\int 5 dx", a: "5x + C", distractors: ["5 + C", "0", "x^5 + C"] },
+                { q: "\\int \\cos x dx", a: "\\sin x + C", distractors: ["-\\sin x", "\\cos x", "-\\cos x"] },
+                { q: "\\int x^2 dx", a: "\\frac{x^3}{3} + C", distractors: ["2x + C", "x^3 + C", "3x^3"] },
+                { q: "\\int e^x dx", a: "e^x + C", distractors: ["xe^x", "\\ln x", "1"] },
+                { q: "\\int \\frac{1}{x} dx", a: "\\ln|x| + C", distractors: ["x^{-1}", "e^x", "1"] }
+            ]
+        };
+
+        // ------------------------------------------
+        // 2. ESTADO GLOBAL
+        // ------------------------------------------
+        let currentState = {
+            topic: null,
+            game: null,
+            score: 0,
+            isPlaying: false,
+            timer: null,
+            gameLoop: null
+        };
+
+        // Referencias al DOM
+        const screens = {
+            topic: document.getElementById('screen-topic'),
+            gameSelect: document.getElementById('screen-game-select'),
+            gameArea: document.getElementById('screen-game-area')
+        };
+        const containers = {
+            memory: document.getElementById('game-memory'),
+            bomb: document.getElementById('game-bomb'),
+            race: document.getElementById('game-race')
+        };
+        const displays = {
+            score: document.getElementById('score-display'),
+            topic: document.getElementById('current-topic-display'),
+            infoBar: document.getElementById('top-bar-info')
+        };
+
+        // ------------------------------------------
+        // 3. NAVEGACIÓN
+        // ------------------------------------------
+        function showScreen(screenName) {
+            // Ocultar todas
+            screens.topic.classList.add('hidden');
+            screens.gameSelect.classList.add('hidden');
+            screens.gameArea.classList.add('hidden');
+            document.getElementById('modal-gameover').classList.add('hidden');
+
+            // Mostrar seleccionada
+            if (screenName === 'topic') screens.topic.classList.remove('hidden');
+            if (screenName === 'gameSelect') screens.gameSelect.classList.remove('hidden');
+            if (screenName === 'gameArea') screens.gameArea.classList.remove('hidden');
+        }
+
+        function selectTopic(topic) {
+            currentState.topic = topic;
+
+            // Texto bonito para el subtítulo
+            const names = { fundamentos: 'Fundamentos', diferencial: 'Cálculo Diferencial', integral: 'Cálculo Integral' };
+            document.getElementById('topic-subtitle').innerText = `Tema: ${names[topic]}`;
+            displays.topic.innerText = `Tema: ${names[topic]}`;
+
+            showScreen('gameSelect');
+        }
+
+        function goToMenu() {
+            stopAllGames();
+            displays.infoBar.classList.add('hidden');
+            showScreen('topic');
+        }
+
+        function startGame(gameType) {
+            currentState.game = gameType;
+            currentState.score = 0;
+            currentState.isPlaying = true;
+            updateScore(0);
+
+            showScreen('gameArea');
+            displays.infoBar.classList.remove('hidden');
+
+            // Ocultar contenedores de juegos específicos
+            Object.values(containers).forEach(c => c.classList.add('hidden'));
+
+            // Iniciar lógica específica
+            if (gameType === 'memory') initMemory();
+            if (gameType === 'bomb') initBomb();
+            if (gameType === 'race') initRace();
+        }
+
+        function updateScore(pts) {
+            currentState.score += pts;
+            displays.score.innerText = `Puntos: ${currentState.score}`;
+        }
+
+        function gameOver(win) {
+            stopAllGames();
+            const modal = document.getElementById('modal-gameover');
+            const title = document.getElementById('go-title');
+            const msg = document.getElementById('go-message');
+
+            modal.classList.remove('hidden');
+            title.innerText = win ? "¡VICTORIA!" : "GAME OVER";
+            title.className = win ? "text-3xl font-bold mb-4 pixel-font text-green-400" : "text-3xl font-bold mb-4 pixel-font text-red-400";
+            msg.innerText = `Puntuación Final: ${currentState.score}`;
+        }
+
+        function restartGame() {
+            startGame(currentState.game);
+        }
+
+        function stopAllGames() {
+            currentState.isPlaying = false;
+            clearInterval(currentState.timer);
+            cancelAnimationFrame(currentState.gameLoop);
+        }
+
+        function refreshMath() {
+            // Forzar renderizado de MathJax en los nuevos elementos
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // ------------------------------------------
+        // 4. LÓGICA DE JUEGOS
+        // ------------------------------------------
+
+        // --- JUEGO 1: MEMORAMA ---
+        let flippedCards = [];
+        let lockedBoard = false;
+
+        function initMemory() {
+            containers.memory.classList.remove('hidden');
+            const grid = document.getElementById('memory-grid');
+            grid.innerHTML = '';
+            flippedCards = [];
+            lockedBoard = false;
+
+            // Obtener datos y duplicar para pares
+            let questions = database[currentState.topic];
+            // Seleccionar 6 pares al azar
+            questions = questions.sort(() => 0.5 - Math.random()).slice(0, 6);
+
+            let cardsData = [];
+            questions.forEach((item, index) => {
+                // Carta Pregunta
+                cardsData.push({ id: index, content: `$$${item.q}$$`, type: 'q' });
+                // Carta Respuesta
+                cardsData.push({ id: index, content: `$$${item.a}$$`, type: 'a' });
+            });
+
+            // Barajar
+            cardsData.sort(() => 0.5 - Math.random());
+
+            // Crear HTML
+            cardsData.forEach(card => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card h-32';
+                cardEl.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">?</div>
+                        <div class="card-back text-sm font-bold text-black bg-white">${card.content}</div>
+                    </div>
+                `;
+                cardEl.onclick = () => flipCard(cardEl, card.id);
+                grid.appendChild(cardEl);
+            });
+            refreshMath();
+        }
+
+        function flipCard(cardEl, id) {
+            if (lockedBoard) return;
+            if (cardEl.classList.contains('flipped')) return;
+
+            cardEl.classList.add('flipped');
+            flippedCards.push({ el: cardEl, id: id });
+
+            if (flippedCards.length === 2) {
+                checkForMatch();
+            }
+        }
+
+        function checkForMatch() {
+            lockedBoard = true;
+            const [card1, card2] = flippedCards;
+
+            if (card1.id === card2.id) {
+                // Match
+                updateScore(100);
+                flippedCards = [];
+                lockedBoard = false;
+                // Verificar victoria (si todas están flipped)
+                const all = document.querySelectorAll('.card');
+                const allFlipped = Array.from(all).every(c => c.classList.contains('flipped'));
+                if (allFlipped) setTimeout(() => gameOver(true), 500);
+            } else {
+                // No Match
+                updateScore(-10);
+                setTimeout(() => {
+                    card1.el.classList.remove('flipped');
+                    card2.el.classList.remove('flipped');
+                    flippedCards = [];
+                    lockedBoard = false;
+                }, 1000);
+            }
+        }
+
+        // --- JUEGO 2: BOMBA ---
+        function initBomb() {
+            containers.bomb.classList.remove('hidden');
+            let timeLeft = 30; // 30 segundos
+            let questionsNeeded = 5;
+            let currentQIndex = 0;
+            const timerEl = document.getElementById('bomb-timer');
+            const qEl = document.getElementById('bomb-question');
+            const wiresContainer = document.getElementById('bomb-wires');
+
+            // Obtener preguntas
+            let questions = [...database[currentState.topic]].sort(() => 0.5 - Math.random());
+
+            function loadBombQuestion() {
+                if (questionsNeeded <= 0) {
+                    gameOver(true);
+                    return;
+                }
+                if (currentQIndex >= questions.length) currentQIndex = 0; // Loop preguntas
+
+                const q = questions[currentQIndex];
+                qEl.innerHTML = `$$${q.q}$$`;
+
+                wiresContainer.innerHTML = '';
+
+                // Generar respuestas (1 correcta + 3 distractores)
+                let options = [{ text: q.a, correct: true }];
+                q.distractors.forEach(d => options.push({ text: d, correct: false }));
+                options.sort(() => 0.5 - Math.random());
+
+                const colors = ['bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500'];
+
+                options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `${colors[idx]} hover:opacity-80 text-white font-bold py-4 rounded shadow-lg transition transform hover:scale-105 wire-btn`;
+                    btn.innerHTML = `$$${opt.text}$$`;
+                    btn.onclick = () => {
+                        if (opt.correct) {
+                            updateScore(50);
+                            timeLeft += 5; // Bonus de tiempo
+                            questionsNeeded--;
+                            currentQIndex++;
+                            // Animación visual de éxito
+                            timerEl.classList.remove('bomb-active');
+                            void timerEl.offsetWidth; // reset anim
+                            loadBombQuestion();
+                        } else {
+                            timeLeft -= 5; // Penalización
+                            timerEl.classList.add('bomb-active');
+                            updateScore(-20);
+                        }
+                    };
+                    wiresContainer.appendChild(btn);
+                });
+                refreshMath();
+            }
+
+            loadBombQuestion();
+
+            currentState.timer = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = `00:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
+                if (timeLeft <= 0) {
+                    gameOver(false);
+                }
+                if (timeLeft <= 10) timerEl.classList.add('text-red-600');
+            }, 1000);
+        }
+
+        // --- JUEGO 3: CARRERA (Lógica Simplificada) ---
+        let raceState = {
+            lane: 1, // 0: Izq, 1: Centro, 2: Der
+            items: [],
+            speed: 2,
+            spawnRate: 150, // Frames
+            frame: 0
+        };
+
+        function initRace() {
+            containers.race.classList.remove('hidden');
+            const player = document.getElementById('player-car');
+            const container = document.getElementById('race-items-container');
+            const qDisplay = document.getElementById('race-question');
+
+            container.innerHTML = '';
+            raceState.lane = 1;
+            raceState.items = [];
+            raceState.frame = 0;
+            raceState.speed = 1.5; // Velocidad inicial lenta
+            updateCarPos();
+
+            // Pregunta actual
+            let currentQ = getRandomQuestion();
+            qDisplay.innerHTML = `$$${currentQ.q}$$`;
+            refreshMath();
+
+            function getRandomQuestion() {
+                const list = database[currentState.topic];
+                return list[Math.floor(Math.random() * list.length)];
+            }
+
+            function gameLoop() {
+                if (!currentState.isPlaying) return;
+                raceState.frame++;
+
+                // Generar obstáculo/respuesta
+                if (raceState.frame % raceState.spawnRate === 0) {
+                    const isCorrect = Math.random() > 0.6; // 40% chance de que sea la respuesta correcta
+                    const lane = Math.floor(Math.random() * 3);
+
+                    const item = document.createElement('div');
+                    item.className = 'absolute w-1/3 flex justify-center items-center text-sm font-bold text-white p-2 rounded falling-item';
+                    item.style.left = (lane * 33.33) + '%';
+                    item.style.top = '-50px';
+
+                    // Contenido
+                    const content = isCorrect ? currentQ.a : currentQ.distractors[Math.floor(Math.random() * currentQ.distractors.length)];
+                    item.innerHTML = `<span class="bg-gray-700 px-2 py-1 rounded">$$${content}$$</span>`;
+
+                    container.appendChild(item);
+                    raceState.items.push({ el: item, lane: lane, y: -50, isCorrect: isCorrect, value: content });
+                    refreshMath();
+                }
+
+                // Mover items
+                raceState.items.forEach((item, index) => {
+                    item.y += raceState.speed;
+                    item.el.style.top = item.y + 'px';
+
+                    // Colisión
+                    // Altura contenedor ~500px. Coche en bottom 4 (aprox 450px)
+                    if (item.y > 420 && item.y < 480) {
+                        if (item.lane === raceState.lane) {
+                            // CHOQUE
+                            if (item.isCorrect) {
+                                updateScore(50);
+                                raceState.speed += 0.1; // Aumentar dificultad
+                                // Nueva pregunta
+                                currentQ = getRandomQuestion();
+                                qDisplay.innerHTML = `$$${currentQ.q}$$`;
+                                refreshMath();
+                                // Efecto visual simple
+                                item.el.style.backgroundColor = 'green';
+                            } else {
+                                updateScore(-20);
+                                item.el.style.backgroundColor = 'red';
+                                if (currentState.score < -100) gameOver(false);
+                            }
+                            // Remover del DOM
+                            item.el.remove();
+                            raceState.items.splice(index, 1);
+                        }
+                    }
+
+                    // Limpiar items pasados
+                    if (item.y > 520) {
+                        item.el.remove();
+                        raceState.items.splice(index, 1);
+                    }
+                });
+
+                currentState.gameLoop = requestAnimationFrame(gameLoop);
+            }
+
+            gameLoop();
+        }
+
+        // Control Carrera
+        function updateCarPos() {
+            const player = document.getElementById('player-car');
+            player.style.left = (raceState.lane * 33.33) + '%';
+        }
+
+        function moveCar(dir) {
+            if (currentState.game !== 'race') return;
+            raceState.lane += dir;
+            if (raceState.lane < 0) raceState.lane = 0;
+            if (raceState.lane > 2) raceState.lane = 2;
+            updateCarPos();
+        }
+
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (currentState.game === 'race') {
+                if (e.key === 'ArrowLeft') moveCar(-1);
+                if (e.key === 'ArrowRight') moveCar(1);
+            }
+        });
+
+    </script>
+</body>
+
+</html>
