@@ -77,7 +77,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5px;
+            padding: 8px;
+            overflow: hidden;
         }
 
         .card-front {
@@ -91,6 +92,15 @@
             color: white;
             transform: rotateY(180deg);
             border: 2px solid white;
+            font-size: 0.7rem;
+            line-height: 1.2;
+        }
+
+        .card-back > span {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            text-align: center;
+            display: block;
         }
 
         /* Estilos para la carrera */
@@ -108,6 +118,34 @@
 
         .falling-item {
             transition: top 0.1s linear;
+        }
+
+        /* Estilos para modales de tutorial */
+        .tutorial-modal {
+            backdrop-filter: blur(5px);
+        }
+
+        .tutorial-content {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .help-btn {
+            transition: all 0.2s;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -162,31 +200,55 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Juego 1: Memorama -->
-                <button onclick="startGame('memory')"
-                    class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group">
-                    <div class="absolute inset-0 bg-blue-500 opacity-10 group-hover:opacity-20"></div>
-                    <div class="text-3xl mb-3">🃏</div>
-                    <h3 class="font-bold text-lg">Memorama Matemático</h3>
-                    <p class="text-xs text-gray-400 mt-2">Encuentra las parejas (Función y Resultado)</p>
-                </button>
+                <div class="relative">
+                    <button onclick="startGame('memory')"
+                        class="w-full bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group transition-all hover:scale-105">
+                        <div class="absolute inset-0 bg-blue-500 opacity-10 group-hover:opacity-20"></div>
+                        <div class="relative z-0">
+                            <div class="text-3xl mb-3">🃏</div>
+                            <h3 class="font-bold text-lg">Memorama Matemático</h3>
+                            <p class="text-xs text-gray-400 mt-2">Encuentra las parejas (Función y Resultado)</p>
+                        </div>
+                    </button>
+                    <button onclick="showTutorial('memory')" 
+                        class="absolute top-3 right-3 bg-blue-500 hover:bg-blue-600 w-7 h-7 rounded-full flex items-center justify-center help-btn z-20 shadow-lg">
+                        <span class="text-white font-bold text-sm">?</span>
+                    </button>
+                </div>
 
                 <!-- Juego 2: Bomba -->
-                <button onclick="startGame('bomb')"
-                    class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group">
-                    <div class="absolute inset-0 bg-red-500 opacity-10 group-hover:opacity-20"></div>
-                    <div class="text-3xl mb-3">💣</div>
-                    <h3 class="font-bold text-lg">Desactiva la Bomba</h3>
-                    <p class="text-xs text-gray-400 mt-2">Responde rápido antes de que explote</p>
-                </button>
+                <div class="relative">
+                    <button onclick="startGame('bomb')"
+                        class="w-full bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group transition-all hover:scale-105">
+                        <div class="absolute inset-0 bg-red-500 opacity-10 group-hover:opacity-20"></div>
+                        <div class="relative z-0">
+                            <div class="text-3xl mb-3">💣</div>
+                            <h3 class="font-bold text-lg">Desactiva la Bomba</h3>
+                            <p class="text-xs text-gray-400 mt-2">Responde rápido antes de que explote</p>
+                        </div>
+                    </button>
+                    <button onclick="showTutorial('bomb')" 
+                        class="absolute top-3 right-3 bg-red-500 hover:bg-red-600 w-7 h-7 rounded-full flex items-center justify-center help-btn z-20 shadow-lg">
+                        <span class="text-white font-bold text-sm">?</span>
+                    </button>
+                </div>
 
                 <!-- Juego 3: Carrera -->
-                <button onclick="startGame('race')"
-                    class="bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group">
-                    <div class="absolute inset-0 bg-yellow-500 opacity-10 group-hover:opacity-20"></div>
-                    <div class="text-3xl mb-3">🏎️</div>
-                    <h3 class="font-bold text-lg">Carrera del Saber</h3>
-                    <p class="text-xs text-gray-400 mt-2">Esquiva los errores, atrapa los aciertos</p>
-                </button>
+                <div class="relative">
+                    <button onclick="startGame('race')"
+                        class="w-full bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group transition-all hover:scale-105">
+                        <div class="absolute inset-0 bg-yellow-500 opacity-10 group-hover:opacity-20"></div>
+                        <div class="relative z-0">
+                            <div class="text-3xl mb-3">🏎️</div>
+                            <h3 class="font-bold text-lg">Carrera del Saber</h3>
+                            <p class="text-xs text-gray-400 mt-2">Esquiva los errores, atrapa los aciertos</p>
+                        </div>
+                    </button>
+                    <button onclick="showTutorial('race')" 
+                        class="absolute top-3 right-3 bg-yellow-500 hover:bg-yellow-600 w-7 h-7 rounded-full flex items-center justify-center help-btn z-20 shadow-lg">
+                        <span class="text-white font-bold text-sm">?</span>
+                    </button>
+                </div>
             </div>
             <button onclick="goToMenu()" class="mt-8 text-gray-400 underline hover:text-white">Cambiar Tema</button>
         </div>
@@ -195,22 +257,22 @@
         <div id="screen-game-area" class="hidden w-full h-full flex flex-col items-center relative">
 
             <!-- Contenedor JUEGO: MEMORAMA -->
-            <div id="game-memory" class="hidden w-full max-w-4xl p-4">
-                <div id="memory-grid" class="grid grid-cols-4 gap-4 w-full h-full">
+            <div id="game-memory" class="hidden w-full max-w-5xl p-4">
+                <div id="memory-grid" class="grid grid-cols-4 gap-4 w-full">
                     <!-- Las cartas se generan con JS -->
                 </div>
             </div>
 
             <!-- Contenedor JUEGO: BOMBA -->
-            <div id="game-bomb" class="hidden w-full max-w-2xl flex flex-col items-center justify-center space-y-6">
+            <div id="game-bomb" class="hidden w-full max-w-4xl flex flex-col items-center justify-center space-y-6 px-4">
                 <div id="bomb-timer"
                     class="text-6xl pixel-font text-red-500 bg-black px-6 py-2 rounded border-4 border-gray-700 shadow-xl">
                     00:00</div>
-                <div class="bg-gray-800 p-8 rounded-xl w-full text-center border-2 border-gray-600">
+                <div class="bg-gray-800 p-6 rounded-xl w-full text-center border-2 border-gray-600 min-h-28 overflow-x-auto">
                     <p class="text-gray-400 text-sm mb-2">Resuelve para cortar el cable:</p>
-                    <div id="bomb-question" class="text-3xl font-bold my-4">$$ \int x dx $$</div>
+                    <div id="bomb-question" class="text-xl font-bold my-4 overflow-x-auto whitespace-nowrap">$$ \int x dx $$</div>
                 </div>
-                <div id="bomb-wires" class="grid grid-cols-2 gap-4 w-full">
+                <div id="bomb-wires" class="grid grid-cols-2 gap-3 w-full">
                     <!-- Cables generados con JS -->
                 </div>
             </div>
@@ -258,6 +320,94 @@
                     <button onclick="goToMenu()"
                         class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-2 rounded font-bold">Menú</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- MODALES DE TUTORIAL -->
+        <!-- Tutorial: Memorama -->
+        <div id="tutorial-memory" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 tutorial-modal">
+            <div class="bg-gradient-to-br from-blue-900 to-blue-700 p-8 rounded-xl border-4 border-blue-400 max-w-lg w-full mx-4 tutorial-content shadow-2xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span class="text-4xl">🃏</span> Memorama Matemático
+                    </h2>
+                    <button onclick="closeTutorial('memory')" class="text-white hover:text-gray-300 text-3xl font-bold">&times;</button>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg mb-4">
+                    <h3 class="font-bold text-yellow-300 mb-2">🎯 Objetivo:</h3>
+                    <p class="text-white text-sm mb-3">Encuentra todas las parejas de cartas que correspondan entre una función matemática y su resultado.</p>
+                    
+                    <h3 class="font-bold text-yellow-300 mb-2">📋 Cómo jugar:</h3>
+                    <ul class="text-white text-sm space-y-1 list-disc list-inside">
+                        <li>Haz clic en una carta para voltearla</li>
+                        <li>Busca su pareja (función ↔ resultado)</li>
+                        <li>Si aciertas: +100 puntos ✅</li>
+                        <li>Si fallas: -10 puntos ❌</li>
+                        <li>Ganas al encontrar todas las parejas</li>
+                    </ul>
+                </div>
+                <div class="bg-yellow-400/20 p-3 rounded-lg border-2 border-yellow-400">
+                    <p class="text-yellow-200 text-sm font-bold">💡 Consejo: Usa tu memoria y razonamiento matemático para recordar dónde están las cartas.</p>
+                </div>
+                <button onclick="closeTutorial('memory')" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-lg">¡Entendido!</button>
+            </div>
+        </div>
+
+        <!-- Tutorial: Bomba -->
+        <div id="tutorial-bomb" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 tutorial-modal">
+            <div class="bg-gradient-to-br from-red-900 to-red-700 p-8 rounded-xl border-4 border-red-400 max-w-lg w-full mx-4 tutorial-content shadow-2xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span class="text-4xl">💣</span> Desactiva la Bomba
+                    </h2>
+                    <button onclick="closeTutorial('bomb')" class="text-white hover:text-gray-300 text-3xl font-bold">&times;</button>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg mb-4">
+                    <h3 class="font-bold text-yellow-300 mb-2">🎯 Objetivo:</h3>
+                    <p class="text-white text-sm mb-3">Desactiva la bomba resolviendo 5 problemas matemáticos antes de que se acabe el tiempo.</p>
+                    
+                    <h3 class="font-bold text-yellow-300 mb-2">📋 Cómo jugar:</h3>
+                    <ul class="text-white text-sm space-y-1 list-disc list-inside">
+                        <li>Lee la pregunta matemática</li>
+                        <li>Selecciona el cable (respuesta) correcto</li>
+                        <li>Respuesta correcta: +50 puntos y +5 seg ⏱️</li>
+                        <li>Respuesta incorrecta: -20 puntos y -5 seg ⚠️</li>
+                        <li>Tienes 30 segundos iniciales</li>
+                    </ul>
+                </div>
+                <div class="bg-yellow-400/20 p-3 rounded-lg border-2 border-yellow-400">
+                    <p class="text-yellow-200 text-sm font-bold">💡 Consejo: ¡Piensa rápido pero con precisión! Un error te quita tiempo valioso.</p>
+                </div>
+                <button onclick="closeTutorial('bomb')" class="w-full mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg">¡Entendido!</button>
+            </div>
+        </div>
+
+        <!-- Tutorial: Carrera -->
+        <div id="tutorial-race" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 tutorial-modal">
+            <div class="bg-gradient-to-br from-yellow-900 to-yellow-700 p-8 rounded-xl border-4 border-yellow-400 max-w-lg w-full mx-4 tutorial-content shadow-2xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span class="text-4xl">🏎️</span> Carrera del Saber
+                    </h2>
+                    <button onclick="closeTutorial('race')" class="text-white hover:text-gray-300 text-3xl font-bold">&times;</button>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg mb-4">
+                    <h3 class="font-bold text-yellow-300 mb-2">🎯 Objetivo:</h3>
+                    <p class="text-white text-sm mb-3">Conduce tu auto recogiendo las respuestas correctas y evitando las incorrectas.</p>
+                    
+                    <h3 class="font-bold text-yellow-300 mb-2">📋 Cómo jugar:</h3>
+                    <ul class="text-white text-sm space-y-1 list-disc list-inside">
+                        <li>Lee la pregunta en la parte superior</li>
+                        <li>Usa las flechas ← → (o toca los lados en móvil)</li>
+                        <li>Recoge la respuesta correcta: +50 puntos 🎯</li>
+                        <li>Evita respuestas incorrectas: -20 puntos 💥</li>
+                        <li>El juego se acelera progresivamente</li>
+                    </ul>
+                </div>
+                <div class="bg-yellow-400/20 p-3 rounded-lg border-2 border-yellow-400">
+                    <p class="text-yellow-200 text-sm font-bold">💡 Consejo: Mantén la concentración y anticipa los movimientos. ¡La velocidad aumenta!</p>
+                </div>
+                <button onclick="closeTutorial('race')" class="w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 rounded-lg">¡Entendido!</button>
             </div>
         </div>
 
@@ -332,21 +482,49 @@
                 // Matrices - Suma
                 { q: "\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix} + \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}", a: "\\begin{pmatrix} 2 & 3 \\\\ 4 & 5 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 0 & 1 \\\\ 2 & 3 \\end{pmatrix}", "\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", "\\begin{pmatrix} 2 & 4 \\\\ 6 & 8 \\end{pmatrix}"] },
                 { q: "\\begin{pmatrix} 5 & 2 \\\\ 1 & 3 \\end{pmatrix} + \\begin{pmatrix} 1 & 2 \\\\ 3 & 1 \\end{pmatrix}", a: "\\begin{pmatrix} 6 & 4 \\\\ 4 & 4 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 4 & 0 \\\\ -2 & 2 \\end{pmatrix}", "\\begin{pmatrix} 5 & 4 \\\\ 4 & 3 \\end{pmatrix}", "\\begin{pmatrix} 6 & 2 \\\\ 4 & 4 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 0 & 3 \\\\ 2 & 1 \\end{pmatrix} + \\begin{pmatrix} 2 & 0 \\\\ 1 & 4 \\end{pmatrix}", a: "\\begin{pmatrix} 2 & 3 \\\\ 3 & 5 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 2 & 3 \\\\ 2 & 3 \\end{pmatrix}", "\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}", "\\begin{pmatrix} 2 & 0 \\\\ 3 & 4 \\end{pmatrix}"] },
                 
                 // Matrices - Resta
                 { q: "\\begin{pmatrix} 5 & 4 \\\\ 2 & 3 \\end{pmatrix} - \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}", a: "\\begin{pmatrix} 4 & 3 \\\\ 1 & 2 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 6 & 5 \\\\ 3 & 4 \\end{pmatrix}", "\\begin{pmatrix} 4 & 4 \\\\ 1 & 3 \\end{pmatrix}", "\\begin{pmatrix} 4 & 3 \\\\ 1 & 1 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 8 & 6 \\\\ 5 & 7 \\end{pmatrix} - \\begin{pmatrix} 3 & 2 \\\\ 1 & 4 \\end{pmatrix}", a: "\\begin{pmatrix} 5 & 4 \\\\ 4 & 3 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 11 & 8 \\\\ 6 & 11 \\end{pmatrix}", "\\begin{pmatrix} 5 & 4 \\\\ 6 & 3 \\end{pmatrix}", "\\begin{pmatrix} 5 & 8 \\\\ 4 & 3 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 10 & 5 \\\\ 3 & 8 \\end{pmatrix} - \\begin{pmatrix} 10 & 5 \\\\ 3 & 8 \\end{pmatrix}", a: "\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}", "\\begin{pmatrix} 20 & 10 \\\\ 6 & 16 \\end{pmatrix}", "\\begin{pmatrix} 10 & 5 \\\\ 3 & 8 \\end{pmatrix}"] },
                 
                 // Matrices - Multiplicación por escalar
                 { q: "2 \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", a: "\\begin{pmatrix} 2 & 4 \\\\ 6 & 8 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", "\\begin{pmatrix} 3 & 4 \\\\ 5 & 6 \\end{pmatrix}", "\\begin{pmatrix} 2 & 3 \\\\ 4 & 5 \\end{pmatrix}"] },
+                { q: "3 \\begin{pmatrix} 2 & 1 \\\\ 0 & 3 \\end{pmatrix}", a: "\\begin{pmatrix} 6 & 3 \\\\ 0 & 9 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 5 & 4 \\\\ 3 & 6 \\end{pmatrix}", "\\begin{pmatrix} 6 & 3 \\\\ 3 & 9 \\end{pmatrix}", "\\begin{pmatrix} 2 & 1 \\\\ 0 & 3 \\end{pmatrix}"] },
+                { q: "-1 \\begin{pmatrix} 4 & -2 \\\\ 1 & 5 \\end{pmatrix}", a: "\\begin{pmatrix} -4 & 2 \\\\ -1 & -5 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 4 & -2 \\\\ 1 & 5 \\end{pmatrix}", "\\begin{pmatrix} -4 & -2 \\\\ -1 & -5 \\end{pmatrix}", "\\begin{pmatrix} 3 & -3 \\\\ 0 & 4 \\end{pmatrix}"] },
+                { q: "0 \\begin{pmatrix} 5 & 7 \\\\ 2 & 9 \\end{pmatrix}", a: "\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 5 & 7 \\\\ 2 & 9 \\end{pmatrix}", "\\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}", "\\text{No definida}"] },
+                
+                // Matrices - Multiplicación de matrices 2x2
+                { q: "\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} \\begin{pmatrix} 2 & 3 \\\\ 4 & 5 \\end{pmatrix}", a: "\\begin{pmatrix} 2 & 3 \\\\ 4 & 5 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", "\\begin{pmatrix} 3 & 3 \\\\ 4 & 6 \\end{pmatrix}", "\\begin{pmatrix} 2 & 4 \\\\ 3 & 5 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 2 & 0 \\\\ 0 & 2 \\end{pmatrix} \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", a: "\\begin{pmatrix} 2 & 4 \\\\ 6 & 8 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 2 & 2 \\\\ 2 & 2 \\end{pmatrix}", "\\begin{pmatrix} 3 & 4 \\\\ 3 & 6 \\end{pmatrix}", "\\begin{pmatrix} 4 & 8 \\\\ 6 & 8 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix} \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", a: "\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", "\\begin{pmatrix} 1 & 2 \\\\ 0 & 4 \\end{pmatrix}", "\\begin{pmatrix} 2 & 2 \\\\ 7 & 4 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix} \\begin{pmatrix} 1 & 0 \\\\ 2 & 1 \\end{pmatrix}", a: "\\begin{pmatrix} 5 & 2 \\\\ 2 & 1 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}", "\\begin{pmatrix} 3 & 2 \\\\ 2 & 1 \\end{pmatrix}", "\\begin{pmatrix} 5 & 0 \\\\ 0 & 1 \\end{pmatrix}"] },
                 
                 // Determinante de matriz 2x2
                 { q: "\\det\\begin{pmatrix} 2 & 3 \\\\ 1 & 4 \\end{pmatrix}", a: "5", distractors: ["11", "8", "-5"] },
                 { q: "\\det\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", a: "-2", distractors: ["2", "10", "-10"] },
                 { q: "\\det\\begin{pmatrix} 5 & 2 \\\\ 3 & 1 \\end{pmatrix}", a: "-1", distractors: ["1", "8", "15"] },
+                { q: "\\det\\begin{pmatrix} 4 & 2 \\\\ 6 & 3 \\end{pmatrix}", a: "0", distractors: ["12", "2", "-12"] },
+                { q: "\\det\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", a: "1", distractors: ["0", "2", "-1"] },
+                { q: "\\det\\begin{pmatrix} 3 & 5 \\\\ 2 & 4 \\end{pmatrix}", a: "2", distractors: ["12", "-2", "20"] },
+                
+                // Matriz transpuesta
+                { q: "\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}^T", a: "\\begin{pmatrix} 1 & 3 \\\\ 2 & 4 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", "\\begin{pmatrix} 4 & 3 \\\\ 2 & 1 \\end{pmatrix}", "\\begin{pmatrix} -1 & -2 \\\\ -3 & -4 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 5 & 0 \\\\ 1 & 2 \\end{pmatrix}^T", a: "\\begin{pmatrix} 5 & 1 \\\\ 0 & 2 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 5 & 0 \\\\ 1 & 2 \\end{pmatrix}", "\\begin{pmatrix} 0 & 5 \\\\ 2 & 1 \\end{pmatrix}", "\\begin{pmatrix} 2 & 1 \\\\ 0 & 5 \\end{pmatrix}"] },
+                { q: "\\begin{pmatrix} 3 & 3 \\\\ 3 & 3 \\end{pmatrix}^T", a: "\\begin{pmatrix} 3 & 3 \\\\ 3 & 3 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 6 & 6 \\\\ 6 & 6 \\end{pmatrix}", "\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}", "\\begin{pmatrix} 9 & 9 \\\\ 9 & 9 \\end{pmatrix}"] },
                 
                 // Matriz inversa (conceptos)
                 { q: "\\text{Si } A \\cdot A^{-1} = I", a: "A^{-1} \\text{ es inversa de } A", distractors: ["A^{-1} = 0", "A^{-1} \\text{ es igual a } A", "A^{-1} \\text{ no existe}"] },
                 { q: "\\text{Una matriz tiene inversa si:}", a: "\\det(A) \\neq 0", distractors: ["\\det(A) = 0", "A \\text{ es rectangular}", "A = 0"] },
+                { q: "\\text{La matriz identidad } I_2 \\text{ es:}", a: "\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}", "\\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}", "\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}"] },
+                { q: "\\text{La matriz cero } O \\text{ es:}", a: "\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}", "\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", "\\text{No existe}"] },
+                
+                // Propiedades de matrices
+                { q: "A + B = ?", a: "B + A", distractors: ["A - B", "AB", "BA"] },
+                { q: "A + O = ?", a: "A", distractors: ["O", "2A", "A^2"] },
+                { q: "A \\cdot I = ?", a: "A", distractors: ["I", "O", "A^{-1}"] },
+                { q: "(AB)^T = ?", a: "B^T A^T", distractors: ["A^T B^T", "AB", "BA"] },
                 
                 // Trigonometría - Triángulo rectángulo
                 { q: "\\sin(90°)", a: "1", distractors: ["0", "-1", "\\infty"] },
@@ -368,12 +546,51 @@
                 // Trigonometría - Ley de cosenos
                 { q: "\\text{Ley de Cosenos: } a^2", a: "= b^2 + c^2 - 2bc\\cos(A)", distractors: ["= b^2 + c^2", "= (b+c)^2", "= b^2 + c^2 + 2bc\\cos(A)"] },
                 
+                // Matriz inversa - Cálculo para 2x2
+                { q: "A^{-1} \\text{ de } \\begin{pmatrix} 2 & 0 \\\\ 0 & 2 \\end{pmatrix}", a: "\\begin{pmatrix} \\frac{1}{2} & 0 \\\\ 0 & \\frac{1}{2} \\end{pmatrix}", distractors: ["\\begin{pmatrix} 2 & 0 \\\\ 0 & 2 \\end{pmatrix}", "\\begin{pmatrix} -2 & 0 \\\\ 0 & -2 \\end{pmatrix}", "\\text{No existe}"] },
+                { q: "A^{-1} \\text{ de } \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", a: "\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}", "\\begin{pmatrix} -1 & 0 \\\\ 0 & -1 \\end{pmatrix}", "\\text{No existe}"] },
+                { q: "A^{-1} \\text{ de } \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}", a: "\\begin{pmatrix} -2 & 1 \\\\ \\frac{3}{2} & -\\frac{1}{2} \\end{pmatrix}", distractors: ["\\begin{pmatrix} 4 & -2 \\\\ -3 & 1 \\end{pmatrix}", "\\begin{pmatrix} 1 & -2 \\\\ -3 & 4 \\end{pmatrix}", "\\begin{pmatrix} -1 & -2 \\\\ -3 & -4 \\end{pmatrix}"] },
+                { q: "A^{-1} \\text{ de } \\begin{pmatrix} 2 & 1 \\\\ 4 & 3 \\end{pmatrix}", a: "\\begin{pmatrix} \\frac{3}{2} & -\\frac{1}{2} \\\\ -2 & 1 \\end{pmatrix}", distractors: ["\\begin{pmatrix} 3 & -1 \\\\ -4 & 2 \\end{pmatrix}", "\\begin{pmatrix} 2 & 1 \\\\ 4 & 3 \\end{pmatrix}", "\\text{No existe}"] },
+                { q: "A^{-1} \\text{ de } \\begin{pmatrix} 2 & 4 \\\\ 1 & 2 \\end{pmatrix}", a: "\\text{No existe (det=0)}", distractors: ["\\begin{pmatrix} 2 & -4 \\\\ -1 & 2 \\end{pmatrix}", "\\begin{pmatrix} \\frac{1}{2} & -2 \\\\ -\\frac{1}{2} & 1 \\end{pmatrix}", "\\begin{pmatrix} 1 & 2 \\\\ \\frac{1}{2} & 1 \\end{pmatrix}"] },
+                { q: "\\text{Para calcular } A^{-1} \\text{ de matriz 2x2:}", a: "\\frac{1}{\\det(A)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}", distractors: ["\\frac{1}{\\det(A)} \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}", "\\begin{pmatrix} -a & -b \\\\ -c & -d \\end{pmatrix}", "\\det(A) \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}"] },
+                
                 // Sistemas de ecuaciones 2x2
                 { q: "x + y = 5, x - y = 1", a: "x = 3, y = 2", distractors: ["x = 2, y = 3", "x = 1, y = 4", "x = 4, y = 1"] },
                 { q: "2x + y = 7, x - y = 2", a: "x = 3, y = 1", distractors: ["x = 2, y = 3", "x = 1, y = 5", "x = 4, y = -1"] },
+                { q: "3x + 2y = 12, x + y = 5", a: "x = 2, y = 3", distractors: ["x = 3, y = 2", "x = 4, y = 0", "x = 1, y = 4"] },
+                { q: "x + 2y = 8, 2x - y = 1", a: "x = 2, y = 3", distractors: ["x = 3, y = 2", "x = 1, y = 3", "x = 4, y = 2"] },
+                { q: "4x + y = 9, x - y = 1", a: "x = 2, y = 1", distractors: ["x = 1, y = 2", "x = 3, y = -3", "x = 2, y = -1"] },
                 
-                // Eliminación gaussiana - conceptos básicos
-                { q: "\\text{En eliminación gaussiana, el objetivo es:}", a: "\\text{Llevar a forma triangular}", distractors: ["\\text{Multiplicar por 0}", "\\text{Invertir matriz}", "\\text{Calcular determinante}"] }
+                // Regla de Cramer - Sistemas 2x2
+                { q: "\\text{Cramer: } x = \\frac{D_x}{D} \\text{, donde } D \\text{ es:}", a: "\\text{Determinante de coeficientes}", distractors: ["\\text{Suma de coeficientes}", "\\text{Producto de variables}", "\\text{Término independiente}"] },
+                { q: "\\text{Sistema: } 2x+y=5, x+3y=6 \\text{. Det } D=", a: "5", distractors: ["1", "-5", "11"] },
+                { q: "\\text{En Cramer, si } D=0:", a: "\\text{Sistema sin solución única}", distractors: ["\\text{Solución única existe}", "x = 0, y = 0", "\\text{Infinitas soluciones}"] },
+                { q: "\\text{Sistema por Cramer: } x+y=3, x-y=1", a: "x = 2, y = 1", distractors: ["x = 1, y = 2", "x = 3, y = 0", "x = 0, y = 3"] },
+                { q: "\\text{Cramer: } 2x+3y=8, x+2y=5 \\text{. Det } D=", a: "1", distractors: ["5", "-1", "0"] },
+                { q: "\\text{Cramer: } 3x+2y=13, 2x+y=8. \\text{ Solución:}", a: "x = 3, y = 2", distractors: ["x = 2, y = 3", "x = 4, y = 1", "x = 1, y = 5"] },
+                
+                // Gauss-Jordan - Proceso y conceptos
+                { q: "\\text{Gauss-Jordan busca llegar a:}", a: "\\text{Forma escalonada reducida}", distractors: ["\\text{Forma triangular}", "\\text{Determinante}", "\\text{Matriz inversa}"] },
+                { q: "\\text{Operación elemental válida:}", a: "\\text{Sumar múltiplo de fila a otra}", distractors: ["\\text{Borrar una fila}", "\\text{Cambiar signos aleatorios}", "\\text{Multiplicar filas diferentes}"] },
+                { q: "\\text{En Gauss-Jordan, pivote debe ser:}", a: "1", distractors: ["0", "\\text{Cualquier número}", "-1"] },
+                { q: "\\text{Sistema con fila } [0 0 | 5]:", a: "\\text{Inconsistente}", distractors: ["\\text{Consistente}", "\\text{Infinitas soluciones}", "x = 5"] },
+                { q: "\\text{Sistema con fila } [0 0 | 0]:", a: "\\text{Variable libre posible}", distractors: ["\\text{No tiene solución}", "\\text{Solución única}", "\\text{Error}"] },
+                { q: "\\left[\\begin{array}{cc|c} 1 & 0 & 3 \\\\ 0 & 1 & 2 \\end{array}\\right]", a: "x = 3, y = 2", distractors: ["x = 2, y = 3", "x = 0, y = 0", "x = 1, y = 1"] },
+                { q: "\\text{Gauss-Jordan: Paso final tiene:}", a: "\\text{Diagonal con 1s}", distractors: ["\\text{Ceros arriba}", "\\text{Números grandes}", "\\text{Determinante}"] },
+                { q: "\\left[\\begin{array}{cc|c} 1 & 2 & 5 \\\\ 0 & 1 & 1 \\end{array}\\right] \\rightarrow \\text{Forma reducida:}", a: "\\left[\\begin{array}{cc|c} 1 & 0 & 3 \\\\ 0 & 1 & 1 \\end{array}\\right]", distractors: ["\\left[\\begin{array}{cc|c} 1 & 2 & 5 \\\\ 0 & 1 & 1 \\end{array}\\right]", "\\left[\\begin{array}{cc|c} 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{array}\\right]", "\\left[\\begin{array}{cc|c} 1 & 1 & 4 \\\\ 0 & 1 & 1 \\end{array}\\right]"] },
+                
+                // Eliminación Gaussiana - Proceso
+                { q: "\\text{En eliminación gaussiana, el objetivo es:}", a: "\\text{Llevar a forma triangular}", distractors: ["\\text{Multiplicar por 0}", "\\text{Invertir matriz}", "\\text{Calcular determinante}"] },
+                { q: "\\text{Forma triangular superior:}", a: "\\text{Ceros bajo diagonal}", distractors: ["\\text{Ceros sobre diagonal}", "\\text{Ceros en diagonal}", "\\text{Todos ceros}"] },
+                { q: "\\text{Después de Gauss, para hallar } x:", a: "\\text{Sustitución hacia atrás}", distractors: ["\\text{Sustitución hacia adelante}", "\\text{Cramer}", "\\text{Nueva eliminación}"] },
+                { q: "\\left[\\begin{array}{cc|c} 2 & 4 & 6 \\\\ 1 & 2 & 3 \\end{array}\\right]", a: "\\text{Infinitas soluciones}", distractors: ["\\text{Solución única}", "\\text{Sin solución}", "x = 1, y = 1"] },
+                { q: "\\text{Operación: } F_2 - 2F_1 \\text{ elimina:}", a: "\\text{Coef. de } x \\text{ en } F_2", distractors: ["\\text{Toda la fila 2}", "\\text{Coef. de } y \\text{ en } F_1", "\\text{Términos independientes}"] },
+                { q: "\\left[\\begin{array}{cc|c} 1 & 2 & 5 \\\\ 0 & 3 & 6 \\end{array}\\right] \\text{. Solución:}", a: "x = 1, y = 2", distractors: ["x = 2, y = 1", "x = 5, y = 6", "x = 3, y = 2"] },
+                
+                // Sistemas 3x3 básicos
+                { q: "x+y+z=6, x=2, y=1 \\text{. Entonces } z=", a: "3", distractors: ["6", "2", "1"] },
+                { q: "\\text{Sistema } 3x3 \\text{ puede tener:}", a: "\\text{0, 1 o infinitas soluciones}", distractors: ["\\text{Solo 1 solución}", "\\text{Siempre 3 soluciones}", "\\text{Solo 2 soluciones}"] },
+                { q: "2x+y+z=8, x=2, z=1 \\text{. Entonces } y=", a: "3", distractors: ["2", "8", "5"] }
             ],
             diferencial: [
                 { q: "\\frac{d}{dx}(x^2)", a: "2x", distractors: ["x", "2", "x^2"] },
@@ -436,6 +653,22 @@
             if (screenName === 'topic') screens.topic.classList.remove('hidden');
             if (screenName === 'gameSelect') screens.gameSelect.classList.remove('hidden');
             if (screenName === 'gameArea') screens.gameArea.classList.remove('hidden');
+        }
+
+        function showTutorial(gameType) {
+            const tutorialId = `tutorial-${gameType}`;
+            const tutorial = document.getElementById(tutorialId);
+            if (tutorial) {
+                tutorial.classList.remove('hidden');
+            }
+        }
+
+        function closeTutorial(gameType) {
+            const tutorialId = `tutorial-${gameType}`;
+            const tutorial = document.getElementById(tutorialId);
+            if (tutorial) {
+                tutorial.classList.add('hidden');
+            }
         }
 
         function selectTopic(topic) {
@@ -541,11 +774,11 @@
             // Crear HTML
             cardsData.forEach(card => {
                 const cardEl = document.createElement('div');
-                cardEl.className = 'card h-32';
+                cardEl.className = 'card h-40';
                 cardEl.innerHTML = `
                     <div class="card-inner">
                         <div class="card-front">?</div>
-                        <div class="card-back text-sm font-bold text-black bg-white">${card.content}</div>
+                        <div class="card-back text-xs font-bold text-black bg-white"><span>${card.content}</span></div>
                     </div>
                 `;
                 cardEl.onclick = () => flipCard(cardEl, card.id);
@@ -625,8 +858,8 @@
 
                 options.forEach((opt, idx) => {
                     const btn = document.createElement('button');
-                    btn.className = `${colors[idx]} hover:opacity-80 text-white font-bold py-4 rounded shadow-lg transition transform hover:scale-105 wire-btn`;
-                    btn.innerHTML = `$$${opt.text}$$`;
+                    btn.className = `${colors[idx]} hover:opacity-80 text-white font-bold py-3 px-2 rounded shadow-lg transition transform hover:scale-105 wire-btn text-xs min-h-14 flex items-center justify-center overflow-x-auto`;
+                    btn.innerHTML = `<span class="block w-full text-center whitespace-nowrap">$$${opt.text}$$</span>`;
                     btn.onclick = () => {
                         if (opt.correct) {
                             updateScore(50);
@@ -702,13 +935,13 @@
                     const lane = Math.floor(Math.random() * 3);
 
                     const item = document.createElement('div');
-                    item.className = 'absolute w-1/3 flex justify-center items-center text-sm font-bold text-white p-2 rounded falling-item';
+                    item.className = 'absolute w-1/3 flex justify-center items-center text-xs font-bold text-white p-1 rounded falling-item';
                     item.style.left = (lane * 33.33) + '%';
                     item.style.top = '-50px';
 
                     // Contenido
                     const content = isCorrect ? currentQ.a : currentQ.distractors[Math.floor(Math.random() * currentQ.distractors.length)];
-                    item.innerHTML = `<span class="bg-gray-700 px-2 py-1 rounded">$$${content}$$</span>`;
+                    item.innerHTML = `<span class="bg-gray-700 px-1 py-1 rounded text-xs max-w-full overflow-hidden">$$${content}$$</span>`;
 
                     container.appendChild(item);
                     raceState.items.push({ el: item, lane: lane, y: -50, isCorrect: isCorrect, value: content });
