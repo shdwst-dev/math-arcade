@@ -6,17 +6,21 @@ let raceState = {
     frame: 0
 };
 
+const RACE_TARGET_SCORE = 500;
+
 function initRace() {
     containers.race.classList.remove('hidden');
     const player = document.getElementById('player-car');
     const container = document.getElementById('race-items-container');
     const qDisplay = document.getElementById('race-question');
+    const goalDisplay = document.getElementById('race-goal');
 
     container.innerHTML = '';
     raceState.lane = 1;
     raceState.items = [];
     raceState.frame = 0;
     raceState.speed = 1.5; // Velocidad inicial lenta
+    goalDisplay.innerText = `Meta: ${RACE_TARGET_SCORE} puntos`;
     updateCarPos();
 
     // Pregunta actual
@@ -26,7 +30,7 @@ function initRace() {
     refreshMath();
 
     function getRandomQuestion() {
-        const list = database[currentState.topic];
+        const list = getFilteredQuestions();
         if (!list || list.length === 0) return null;
         return list[Math.floor(Math.random() * list.length)];
     }
@@ -72,6 +76,16 @@ function initRace() {
                     currentQ = getRandomQuestion();
                     qDisplay.innerHTML = `$$${currentQ.q}$$`;
                     refreshMath();
+
+                    const reachedGoal = currentState.score >= RACE_TARGET_SCORE;
+                    item.el.style.backgroundColor = 'green';
+                    setTimeout(() => item.el.remove(), 100);
+                    raceState.items.splice(i, 1);
+                    if (reachedGoal) {
+                        gameOver(true);
+                        return;
+                    }
+                    continue;
                 } else {
                     updateScore(-20);
                     if (currentState.score < -100) gameOver(false);

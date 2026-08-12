@@ -8,7 +8,6 @@
     <!-- Tailwind CSS para diseño rápido y bonito -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- MathJax para mostrar fórmulas matemáticas bonitas -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <!-- CSS -->
@@ -37,24 +36,42 @@
         <div id="screen-topic" class="w-full max-w-4xl text-center space-y-8">
             <h2 class="text-3xl font-bold mb-8">Selecciona tu Misión</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <button onclick="selectTopic('fundamentos')"
+                <button onclick="showSubtopicScreen('fundamentos')"
                     class="group bg-blue-900 hover:bg-blue-700 p-8 rounded-xl border-4 border-blue-500 transition-all hover:scale-105">
                     <div class="text-4xl mb-4">📐</div>
                     <h3 class="text-xl font-bold">Fundamentos</h3>
                     <p class="text-sm text-gray-300 mt-2">Álgebra y Aritmética básica</p>
                 </button>
-                <button onclick="selectTopic('diferencial')"
+                <button onclick="showSubtopicScreen('diferencial')"
                     class="group bg-green-900 hover:bg-green-700 p-8 rounded-xl border-4 border-green-500 transition-all hover:scale-105">
                     <div class="text-4xl mb-4">📉</div>
                     <h3 class="text-xl font-bold">Cálculo Diferencial</h3>
                     <p class="text-sm text-gray-300 mt-2">Límites y Derivadas</p>
                 </button>
-                <button onclick="selectTopic('integral')"
+                <button onclick="showSubtopicScreen('integral')"
                     class="group bg-purple-900 hover:bg-purple-700 p-8 rounded-xl border-4 border-purple-500 transition-all hover:scale-105">
                     <div class="text-4xl mb-4">∫</div>
                     <h3 class="text-xl font-bold">Cálculo Integral</h3>
                     <p class="text-sm text-gray-300 mt-2">Áreas y Sumas</p>
                 </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 1.5: SELECCIÓN DE SUBTEMA -->
+        <div id="screen-subtopic" class="hidden w-full max-w-4xl text-center space-y-6">
+            <h2 class="text-3xl font-bold mb-2">Elige el Tema</h2>
+            <p id="subtopic-title" class="text-gray-400 mb-6">Sección: ...</p>
+            
+            <div id="subtopic-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 overflow-y-auto max-h-[60vh] p-2">
+                <!-- Se llena con JS -->
+            </div>
+            
+            <button onclick="selectSubtopic(null)" class="w-full max-w-md mx-auto bg-gray-700 hover:bg-gray-600 border-2 border-gray-500 p-3 rounded-lg font-bold text-yellow-300 transition-all hover:scale-105">
+                🎲 Todos los Temas (Aleatorio)
+            </button>
+            
+            <div class="mt-4">
+                <button onclick="showScreen('topic')" class="text-gray-400 underline hover:text-white">← Cambiar Sección</button>
             </div>
         </div>
 
@@ -118,7 +135,7 @@
                     </button>
                 </div>
             </div>
-            <button onclick="goToMenu()" class="mt-8 text-gray-400 underline hover:text-white">Cambiar Tema</button>
+            <button onclick="showScreen('subtopic')" class="mt-8 text-gray-400 underline hover:text-white">← Cambiar Tema</button>
         </div>
 
         <!-- PANTALLA 3: ÁREA DE JUEGO (GENÉRICA) -->
@@ -158,6 +175,7 @@
                 <div
                     class="absolute top-0 left-0 w-full bg-black/80 text-white p-2 text-center z-10 border-b border-yellow-500">
                     <span id="race-question" class="font-bold text-lg">?</span>
+                    <span id="race-goal" class="block text-xs text-yellow-300 mt-1">Meta: 500 puntos</span>
                 </div>
                 <!-- Jugador -->
                 <div id="player-car" class="absolute bottom-4 w-1/3 flex justify-center text-4xl transition-all">
@@ -261,7 +279,7 @@
                 </div>
                 <div class="bg-white/10 p-4 rounded-lg mb-4">
                     <h3 class="font-bold text-yellow-300 mb-2">🎯 Objetivo:</h3>
-                    <p class="text-white text-sm mb-3">Conduce tu auto recogiendo las respuestas correctas y evitando las incorrectas.</p>
+                    <p class="text-white text-sm mb-3">Conduce tu auto recogiendo las respuestas correctas y evitando las incorrectas. Alcanza 500 puntos para ganar.</p>
                     
                     <h3 class="font-bold text-yellow-300 mb-2">📋 Cómo jugar:</h3>
                     <ul class="text-white text-sm space-y-1 list-disc list-inside">
@@ -282,6 +300,7 @@
     </main>
 
     <!-- Scripts: Datos (sin dependencias) -->
+    <script src="js/data/subtemas.js"></script>
     <script src="js/data/fundamentos.js"></script>
     <script src="js/data/diferencial.js"></script>
     <script src="js/data/integral.js"></script>

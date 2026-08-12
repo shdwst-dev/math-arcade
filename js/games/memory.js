@@ -9,7 +9,7 @@ function initMemory() {
     lockedBoard = false;
 
     // Obtener datos y duplicar para pares
-    let questions = database[currentState.topic];
+    let questions = getFilteredQuestions();
     if (!questions || questions.length === 0) return;
     
     // Seleccionar 6 pares al azar

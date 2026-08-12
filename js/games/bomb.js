@@ -7,8 +7,13 @@ function initBomb() {
     const qEl = document.getElementById('bomb-question');
     const wiresContainer = document.getElementById('bomb-wires');
 
+    function renderTimer() {
+        timerEl.innerText = `00:${String(Math.max(timeLeft, 0)).padStart(2, '0')}`;
+        timerEl.classList.toggle('text-red-600', timeLeft <= 10);
+    }
+
     // Obtener preguntas
-    let questions = database[currentState.topic];
+    let questions = getFilteredQuestions();
     if (!questions || questions.length === 0) return;
     questions = [...questions].sort(() => 0.5 - Math.random());
 
@@ -39,6 +44,7 @@ function initBomb() {
                 if (opt.correct) {
                     updateScore(50);
                     timeLeft += 5; // Bonus de tiempo
+                    renderTimer();
                     questionsNeeded--;
                     currentQIndex++;
                     // Animación visual de éxito
@@ -49,6 +55,10 @@ function initBomb() {
                     timeLeft -= 5; // Penalización
                     timerEl.classList.add('bomb-active');
                     updateScore(-20);
+                    renderTimer();
+                    if (timeLeft <= 0) {
+                        gameOver(false);
+                    }
                 }
             };
             wiresContainer.appendChild(btn);
@@ -56,14 +66,15 @@ function initBomb() {
         refreshMath();
     }
 
+    timerEl.classList.remove('bomb-active', 'text-red-600');
+    renderTimer();
     loadBombQuestion();
 
     currentState.timer = setInterval(() => {
         timeLeft--;
-        timerEl.innerText = `00:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
+        renderTimer();
         if (timeLeft <= 0) {
             gameOver(false);
         }
-        if (timeLeft <= 10) timerEl.classList.add('text-red-600');
     }, 1000);
 }

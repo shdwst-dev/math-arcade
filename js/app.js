@@ -12,6 +12,7 @@ const database = {
 // ------------------------------------------
 let currentState = {
     topic: null,
+    subtopic: null, // null significa "todos los subtemas"
     game: null,
     score: 0,
     isPlaying: false,
@@ -22,6 +23,7 @@ let currentState = {
 // Referencias al DOM
 const screens = {
     topic: document.getElementById('screen-topic'),
+    subtopic: document.getElementById('screen-subtopic'),
     gameSelect: document.getElementById('screen-game-select'),
     gameArea: document.getElementById('screen-game-area')
 };
@@ -42,14 +44,15 @@ const displays = {
 function showScreen(screenName) {
     // Ocultar todas
     screens.topic.classList.add('hidden');
+    screens.subtopic.classList.add('hidden');
     screens.gameSelect.classList.add('hidden');
     screens.gameArea.classList.add('hidden');
     document.getElementById('modal-gameover').classList.add('hidden');
 
     // Mostrar seleccionada
-    if (screenName === 'topic') screens.topic.classList.remove('hidden');
-    if (screenName === 'gameSelect') screens.gameSelect.classList.remove('hidden');
-    if (screenName === 'gameArea') screens.gameArea.classList.remove('hidden');
+    if (screens[screenName]) {
+        screens[screenName].classList.remove('hidden');
+    }
 }
 
 function showTutorial(gameType) {
@@ -68,18 +71,48 @@ function closeTutorial(gameType) {
     }
 }
 
-function selectTopic(topic) {
+function showSubtopicScreen(topic) {
     currentState.topic = topic;
-
-    // Texto bonito para el subtítulo
+    const container = document.getElementById('subtopic-grid');
+    container.innerHTML = '';
+    
+    // Nombres bonitos
     const names = { fundamentos: 'Fundamentos', diferencial: 'Cálculo Diferencial', integral: 'Cálculo Integral' };
-    document.getElementById('topic-subtitle').innerText = `Tema: ${names[topic]}`;
-    displays.topic.innerText = `Tema: ${names[topic]}`;
+    document.getElementById('subtopic-title').innerText = `Sección: ${names[topic]}`;
+    
+    const topicSubtemas = subtemas[topic] || [];
+    topicSubtemas.forEach(sub => {
+        // Crear botón para cada subtema
+        const btn = document.createElement('button');
+        btn.className = 'bg-gray-800 hover:bg-gray-700 p-4 rounded-xl border-2 border-gray-600 transition-all hover:scale-105 flex flex-col items-center justify-center text-center h-full';
+        btn.innerHTML = `<div class="text-3xl mb-2">${sub.emoji}</div><h3 class="font-bold text-sm leading-tight">${sub.nombre}</h3>`;
+        btn.onclick = () => selectSubtopic(sub.key);
+        container.appendChild(btn);
+    });
+    
+    showScreen('subtopic');
+}
+
+function selectSubtopic(subtopicKey) {
+    currentState.subtopic = subtopicKey;
+
+    const names = { fundamentos: 'Fundamentos', diferencial: 'Cálculo Diferencial', integral: 'Cálculo Integral' };
+    
+    let subtitleText = names[currentState.topic];
+    if (subtopicKey) {
+        const sub = subtemas[currentState.topic].find(s => s.key === subtopicKey);
+        if (sub) subtitleText += ` > ${sub.nombre}`;
+    } else {
+        subtitleText += ` > Todos los Temas`;
+    }
+    
+    document.getElementById('topic-subtitle').innerText = `Tema: ${subtitleText}`;
+    displays.topic.innerText = subtitleText;
 
     // Mostrar high scores visibles en la pantalla de selección
     ['memory', 'bomb', 'race'].forEach(game => {
         const el = document.getElementById(`hs-${game}`);
-        if (el) el.innerText = `🏆 Mejor: ${Storage.getHighScore(topic, game)}`;
+        if (el) el.innerText = `🏆 Mejor: ${Storage.getHighScore(currentState.topic, subtopicKey, game)}`;
     });
 
     showScreen('gameSelect');
@@ -91,7 +124,19 @@ function goToMenu() {
     showScreen('topic');
 }
 
+function getFilteredQuestions() {
+    const allQuestions = database[currentState.topic] || [];
+    if (!currentState.subtopic) return allQuestions; // "Todos"
+    return allQuestions.filter(q => q.subtema === currentState.subtopic);
+}
+
 function startGame(gameType) {
+    const questions = getFilteredQuestions();
+    if (questions.length === 0) {
+        alert("¡Aún no hay preguntas para este subtema!");
+        return;
+    }
+
     currentState.game = gameType;
     currentState.score = 0;
     currentState.isPlaying = true;
@@ -123,10 +168,11 @@ function gameOver(win) {
     // Guardar puntuación (persistencia)
     const isRecord = Storage.saveIfHighScore(
         currentState.topic,
+        currentState.subtopic,
         currentState.game,
         currentState.score
     );
-    const best = Storage.getHighScore(currentState.topic, currentState.game);
+    const best = Storage.getHighScore(currentState.topic, currentState.subtopic, currentState.game);
 
     modal.classList.remove('hidden');
     title.innerText = win ? "¡VICTORIA!" : "GAME OVER";
