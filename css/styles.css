@@ -12,6 +12,49 @@
             font-family: 'Press Start 2P', cursive;
         }
 
+        /* Transiciones de pantallas */
+        .screen-enter {
+            animation: screenFadeIn 0.3s ease-out forwards;
+        }
+        .screen-exit {
+            animation: screenFadeOut 0.2s ease-in forwards;
+        }
+
+        @keyframes screenFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes screenFadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to   { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* Confetti para victoria */
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 9999;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        /* Pulso para nuevo récord */
+        @keyframes record-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .new-record {
+            animation: record-pulse 0.6s ease-in-out 3;
+            display: inline-block;
+        }
+
+
         /* Animación para la bomba */
         @keyframes pulse-red {
             0% {

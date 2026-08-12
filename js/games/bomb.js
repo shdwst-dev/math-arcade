@@ -40,7 +40,10 @@ function initBomb() {
             const btn = document.createElement('button');
             btn.className = `${colors[idx]} hover:opacity-80 text-white font-bold py-3 px-2 rounded shadow-lg transition transform hover:scale-105 wire-btn text-xs min-h-14 flex items-center justify-center overflow-x-auto`;
             btn.innerHTML = `<span class="block w-full text-center whitespace-nowrap">$$${opt.text}$$</span>`;
+            btn.dataset.correct = opt.correct;
             btn.onclick = () => {
+                if (btn.disabled) return;
+                
                 if (opt.correct) {
                     updateScore(50);
                     timeLeft += 5; // Bonus de tiempo
@@ -52,13 +55,30 @@ function initBomb() {
                     void timerEl.offsetWidth; // reset anim
                     loadBombQuestion();
                 } else {
+                    // Deshabilitar todos los botones para evitar doble clic
+                    const allBtns = wiresContainer.querySelectorAll('.wire-btn');
+                    allBtns.forEach(b => b.disabled = true);
+                    
+                    // Resaltar la respuesta correcta
+                    const correctBtn = Array.from(allBtns).find(b => b.dataset.correct === "true");
+                    if (correctBtn) {
+                        correctBtn.classList.remove('bg-red-500', 'bg-blue-500', 'bg-yellow-500');
+                        correctBtn.classList.add('bg-green-500', 'border-4', 'border-white', 'scale-110');
+                    }
+
                     timeLeft -= 5; // Penalización
                     timerEl.classList.add('bomb-active');
                     updateScore(-20);
                     renderTimer();
-                    if (timeLeft <= 0) {
-                        gameOver(false);
-                    }
+                    
+                    setTimeout(() => {
+                        if (timeLeft <= 0) {
+                            gameOver(false);
+                        } else {
+                            currentQIndex++;
+                            loadBombQuestion();
+                        }
+                    }, 1500);
                 }
             };
             wiresContainer.appendChild(btn);

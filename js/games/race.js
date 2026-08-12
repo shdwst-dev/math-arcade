@@ -6,20 +6,37 @@ let raceState = {
     frame: 0
 };
 
-const RACE_TARGET_SCORE = 500;
+let RACE_TARGET_SCORE = 500;
 
 function initRace() {
     containers.race.classList.remove('hidden');
+    
+    raceState.lane = 1;
+    raceState.items = [];
+    raceState.frame = 0;
+    
+    // Ajustar dificultad
+    if (currentState.difficulty === 'Fácil') {
+        raceState.speed = 1.0;
+        raceState.spawnRate = 180;
+        RACE_TARGET_SCORE = 300;
+    } else if (currentState.difficulty === 'Difícil') {
+        raceState.speed = 2.5;
+        raceState.spawnRate = 100;
+        RACE_TARGET_SCORE = 800;
+    } else {
+        // Normal
+        raceState.speed = 1.5;
+        raceState.spawnRate = 150;
+        RACE_TARGET_SCORE = 500;
+    }
+
     const player = document.getElementById('player-car');
     const container = document.getElementById('race-items-container');
     const qDisplay = document.getElementById('race-question');
     const goalDisplay = document.getElementById('race-goal');
 
     container.innerHTML = '';
-    raceState.lane = 1;
-    raceState.items = [];
-    raceState.frame = 0;
-    raceState.speed = 1.5; // Velocidad inicial lenta
     goalDisplay.innerText = `Meta: ${RACE_TARGET_SCORE} puntos`;
     updateCarPos();
 
@@ -39,8 +56,21 @@ function initRace() {
         if (!currentState.isPlaying) return;
         raceState.frame++;
 
+        // Aumentar velocidad gradualmente, máximo 2 veces la velocidad inicial
+        const maxSpeed = currentState.difficulty === 'Fácil' ? 2 : (currentState.difficulty === 'Difícil' ? 5 : 3.5);
+        if (raceState.speed < maxSpeed) raceState.speed += 0.001;
+        
+        // Disminuir tiempo de spawn, mínimo la mitad del inicial
+        const minSpawnRate = currentState.difficulty === 'Fácil' ? 120 : (currentState.difficulty === 'Difícil' ? 60 : 90);
+        if (raceState.spawnRate > minSpawnRate && raceState.frame % 300 === 0) raceState.spawnRate -= 5;
+        
+        if (currentState.score >= RACE_TARGET_SCORE) {
+            gameOver(true);
+            return;
+        }
+
         // Generar obstáculo/respuesta
-        if (raceState.frame % raceState.spawnRate === 0) {
+        if (raceState.frame % Math.floor(raceState.spawnRate) === 0) {
             const MAX_ITEMS = 8;
             if (raceState.items.length < MAX_ITEMS) {
                 const isCorrect = Math.random() > 0.6; // 40% chance de que sea la respuesta correcta
@@ -88,6 +118,25 @@ function initRace() {
                     continue;
                 } else {
                     updateScore(-20);
+                    
+                    // Mostrar respuesta correcta en tooltip flotante
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'absolute bg-green-600 text-white p-2 rounded z-50 shadow-lg text-xs font-bold opacity-0 transition-opacity duration-300 pointer-events-none transform -translate-x-1/2';
+                    tooltip.style.left = (raceState.lane * 33.33 + 16.66) + '%';
+                    tooltip.style.top = '380px';
+                    tooltip.innerHTML = `✅ $$${currentQ.a}$$`;
+                    document.getElementById('game-race').appendChild(tooltip);
+                    
+                    // Renderizar math y animar entrada
+                    refreshMath();
+                    setTimeout(() => tooltip.classList.remove('opacity-0'), 10);
+                    
+                    // Animar salida y remover
+                    setTimeout(() => {
+                        tooltip.classList.add('opacity-0');
+                        setTimeout(() => tooltip.remove(), 300);
+                    }, 1500);
+
                     if (currentState.score < -100) gameOver(false);
                 }
                 

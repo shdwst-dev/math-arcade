@@ -7,10 +7,11 @@ const Storage = {
         return raw ? JSON.parse(raw) : {};
     },
 
-    /** Guarda una puntuación si es la más alta para ese tema+subtema+juego */
-    saveIfHighScore(topic, subtopic, game, score) {
+    /** Guarda una puntuación si es la más alta para ese tema+subtema+juego+dificultad */
+    saveIfHighScore(topic, subtopic, game, score, difficulty = 'Normal') {
         const scores = this.getAll();
-        const key = `${topic}_${subtopic || 'todos'}_${game}`;
+        const diffStr = game === 'race' ? `_${difficulty}` : '';
+        const key = `${topic}_${subtopic || 'todos'}_${game}${diffStr}`;
         if (!scores[key] || score > scores[key].score) {
             scores[key] = {
                 score: score,
@@ -23,9 +24,10 @@ const Storage = {
     },
 
     /** Obtiene la puntuación más alta para un tema+subtema+juego */
-    getHighScore(topic, subtopic, game) {
+    getHighScore(topic, subtopic, game, difficulty = 'Normal') {
         const scores = this.getAll();
-        const key = `${topic}_${subtopic || 'todos'}_${game}`;
+        const diffStr = game === 'race' ? `_${difficulty}` : '';
+        const key = `${topic}_${subtopic || 'todos'}_${game}${diffStr}`;
         return scores[key] ? scores[key].score : 0;
     },
 
