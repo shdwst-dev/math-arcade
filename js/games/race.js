@@ -118,33 +118,38 @@ function initRace() {
                     continue;
                 } else {
                     updateScore(-20);
-                    
-                    // Mostrar respuesta correcta en tooltip flotante
+
+                    // 1. Mostrar el ítem incorrecto en ROJO antes de eliminarlo
+                    item.el.style.backgroundColor = '#dc2626';
+                    item.el.style.border = '3px solid white';
+
+                    // 2. Tooltip con la respuesta correcta en la parte SUPERIOR del juego
+                    //    (no en la zona de colisión para evitar confusión visual)
+                    const gameContainer = document.getElementById('game-race');
+                    gameContainer.querySelectorAll('.race-feedback-tooltip').forEach(t => t.remove());
+
                     const tooltip = document.createElement('div');
-                    tooltip.className = 'absolute bg-green-600 text-white p-2 rounded z-50 shadow-lg text-xs font-bold opacity-0 transition-opacity duration-300 pointer-events-none transform -translate-x-1/2';
-                    tooltip.style.left = (raceState.lane * 33.33 + 16.66) + '%';
-                    tooltip.style.top = '380px';
-                    tooltip.innerHTML = `✅ $$${currentQ.a}$$`;
-                    document.getElementById('game-race').appendChild(tooltip);
-                    
-                    // Renderizar math y animar entrada
+                    tooltip.className = 'race-feedback-tooltip absolute left-0 right-0 mx-auto w-full text-center bg-red-800 text-white px-3 py-2 z-50 text-xs font-bold border-b-2 border-red-400 opacity-0 transition-opacity duration-200';
+                    tooltip.style.top = '38px';
+                    tooltip.innerHTML = `❌ Incorrecto &nbsp;|&nbsp; ✅ Correcto: $$${currentQ.a}$$`;
+                    gameContainer.appendChild(tooltip);
+
                     refreshMath();
                     setTimeout(() => tooltip.classList.remove('opacity-0'), 10);
-                    
-                    // Animar salida y remover
+
+                    // 3. Eliminar el ítem rojo después de 600ms (visible como rojo)
+                    setTimeout(() => item.el.remove(), 600);
+                    raceState.items.splice(i, 1);
+
+                    // 4. Ocultar el tooltip después de 2s
                     setTimeout(() => {
                         tooltip.classList.add('opacity-0');
                         setTimeout(() => tooltip.remove(), 300);
-                    }, 1500);
+                    }, 2000);
 
                     if (currentState.score < -100) gameOver(false);
+                    continue;
                 }
-                
-                // Efecto visual simple y remover
-                item.el.style.backgroundColor = item.isCorrect ? 'green' : 'red';
-                setTimeout(() => item.el.remove(), 100);
-                raceState.items.splice(i, 1);
-                continue;
             }
 
             // Limpiar items pasados
