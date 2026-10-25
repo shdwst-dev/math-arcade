@@ -28,6 +28,11 @@ export type RecordTarget = Pick<
   'topic' | 'subtopic' | 'game' | 'difficulty'
 >;
 
+/** Llave que identifica un récord sin importar de dónde venga (local o nube). */
+export function recordKey({ topic, subtopic, game, difficulty }: RecordTarget) {
+  return `${topic}|${subtopic}|${game}|${effectiveDifficulty(game, difficulty)}`;
+}
+
 // Las llaves tienen forma tema_subtema_juego[_dificultad]. Los subtemas contienen
 // guiones bajos (p. ej. productos_notables), así que se separan con una regex.
 const KEY_PATTERN =

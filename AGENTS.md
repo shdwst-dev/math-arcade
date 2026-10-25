@@ -38,6 +38,8 @@ Este documento define las pautas técnicas y convenciones para agentes de IA y d
 
 - Nunca modificar archivos de migración ya aplicados en `supabase/migrations/`; crear siempre un nuevo archivo de migración secuencial.
 - Mantener las tablas sincronizadas con tipos TypeScript autogenerados (`src/lib/database.types.ts`).
+- Todo cambio en `supabase/migrations` debe pasar `supabase/tests/run.sh` (necesita `psql`; ver `docs/supabase-setup.md`). Si cambian las reglas de puntos de un juego, actualizar también `public.game_max_score` con una migración nueva.
+- Los componentes obtienen la sesión con `useAuth()` (`src/features/auth`); solo `src/features/*` y `src/lib/supabase.ts` importan el cliente de Supabase.
 
 ---
 

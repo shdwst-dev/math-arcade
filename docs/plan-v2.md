@@ -197,11 +197,20 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 
 ### Fase 4: Cuentas y progreso en la nube (grande)
 
-- [ ] Migraciones con los cambios de la sección 6.
-- [ ] Login con Google, elección de apodo y pantalla de cuenta.
-- [ ] Guardar partidas en la nube, con la cola sin conexión de v1 (`legacy/js/cloud.js`), e importar los récords previos de modo invitado (`mathArcade_scores` en `localStorage`) al iniciar sesión si superan a los de la nube.
-- [ ] Estadísticas (locales y de la nube) y ranking.
-- [ ] Pruebas de RLS.
+- [x] Migraciones con los cambios de la sección 6 (`supabase/migrations`; guía en [supabase-setup.md](supabase-setup.md)).
+- [x] Login con Google, elección de apodo y pantalla de cuenta (con cambiar apodo, borrar progreso y borrar cuenta).
+- [x] Guardar partidas en la nube, con la cola sin conexión de v1 (`legacy/js/cloud.js`). Los récords del modo invitado se ofrecen para agregarlos a la cuenta **con confirmación** al iniciar sesión.
+- [x] Estadísticas (de la cuenta o del dispositivo) y ranking.
+- [x] Pruebas de RLS y de las funciones del servidor (`supabase/tests`, 177 comprobaciones, con mutaciones de seguridad verificadas).
+- [ ] **Pendiente del dueño del proyecto:** aplicar las migraciones al proyecto de desarrollo y completar la lista de [comprobación](supabase-setup.md#5-comprobar-que-quedó-bien) con cuentas reales (Google, `@upq.edu.mx` y una de otro dominio).
+
+**Diferencias deliberadas respecto a la sección 6 y a v1:**
+
+- El ranking se lee con la función `get_leaderboard` (solo con sesión y solo apodos elegidos) en lugar de una vista de perfiles; así nunca se exponen ids ni datos personales.
+- Con sesión, las partidas van **solo a la cuenta** y no se escriben en el dispositivo; sin sesión van solo al dispositivo. Así en una computadora compartida los récords de un alumno no se mezclan con los de otro. Por lo mismo, al iniciar sesión los récords del dispositivo se **ofrecen** (no se suben solos) y, una vez agregados, se borran del dispositivo.
+- Un puntaje de 0 o negativo nunca es récord, tampoco en el servidor.
+- Se agregaron `clear_my_progress` y `delete_my_account` (derecho a borrar los propios datos) y la tabla `signup_allowlist` para excepciones controladas por el administrador.
+- El inicio de sesión usa PKCE.
 
 **Listo cuando:**
 

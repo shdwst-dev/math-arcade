@@ -16,10 +16,8 @@ import {
 } from '../games/ids';
 import { GAMES, type GameMeta } from '../games/registry';
 import { TutorialModal } from '../components/TutorialModal';
-import {
-  effectiveDifficulty,
-  getBestScore,
-} from '../features/records/localRecords';
+import { effectiveDifficulty } from '../features/records/localRecords';
+import { useBestScore } from '../features/records/useRecords';
 
 export const GameSelectPage: React.FC = () => {
   const { topicId, subtopicId } = useParams<{
@@ -28,6 +26,7 @@ export const GameSelectPage: React.FC = () => {
   }>();
   const [difficulty, setDifficulty] = useState<Difficulty>(DEFAULT_DIFFICULTY);
   const [tutorialGame, setTutorialGame] = useState<GameMeta | null>(null);
+  const bestScoreOf = useBestScore();
 
   if (!isTopicId(topicId)) return <Navigate to="/" replace />;
   if (!isSubtopicSelection(topicId, subtopicId)) {
@@ -95,7 +94,7 @@ export const GameSelectPage: React.FC = () => {
         {GAMES.map((game) => {
           const available = getQuestions(topic.id, subtopicId, game.id).length;
           const playable = available >= game.minQuestions;
-          const best = getBestScore({
+          const best = bestScoreOf({
             topic: topic.id,
             subtopic: subtopicId,
             game: game.id,
