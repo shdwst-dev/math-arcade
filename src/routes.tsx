@@ -11,6 +11,7 @@ import { PlayPage } from './pages/PlayPage';
 import { StatsPage } from './pages/StatsPage';
 import { RankingPage } from './pages/RankingPage';
 import { AccountPage } from './pages/AccountPage';
+import { PrivacyPage } from './pages/PrivacyPage';
 
 export const routes: RouteObject[] = [
   {
@@ -24,6 +25,7 @@ export const routes: RouteObject[] = [
       { path: 'stats', element: <StatsPage /> },
       { path: 'ranking', element: <RankingPage /> },
       { path: 'account', element: <AccountPage /> },
+      { path: 'privacidad', element: <PrivacyPage /> },
       { path: '*', element: <Navigate to="/" replace /> },
     ],
   },

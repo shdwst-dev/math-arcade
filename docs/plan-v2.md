@@ -35,19 +35,19 @@ Math Arcade ("Math Arcade: El Desafío") es una app web de minijuegos de matemá
 
 ## 3. Stack
 
-| Pieza | Elección | Por qué |
-|---|---|---|
-| Base | Vite + React + TypeScript (modo `strict`) | Todo corre en el navegador, así que Next.js no aporta nada. TypeScript detecta errores en el banco de preguntas y evita que el agente rompa cosas sin darse cuenta. |
-| Estilos | Tailwind CSS v4 (`@tailwindcss/vite`) | v1 ya usa clases de Tailwind, pero desde un CDN que no es para producción. |
-| Rutas | React Router en modo SPA | Cada pantalla de v1 pasa a ser una ruta. |
-| Fórmulas | KaTeX, con un componente `<Latex>` propio | Es más rápido que MathJax, y un componente de pocas líneas evita depender de un envoltorio para React. Se llama `Latex` y no `Math` para no tapar el `Math` global de JavaScript. |
-| Backend | Supabase: Auth con Google, Postgres con RLS y funciones RPC | Ya está empezado y el plan gratis alcanza. |
-| Datos del servidor | `@supabase/supabase-js` (hooks propios; TanStack Query opcional) | Solo hay dos lecturas (`loadMyScores` y `fetchLeaderboard`) y la escritura usa una cola offline propia en `localStorage`. |
-| PWA | `vite-plugin-pwa` | Genera el service worker con los archivos versionados. Ya no hay que subir `CACHE_NAME` a mano. |
-| Pruebas | Vitest + Testing Library; `zod` para validar el contenido | |
-| Calidad | ESLint + Prettier; GitHub Actions corre typecheck, lint, pruebas y build en cada PR | |
-| Hosting | Vercel, con un preview por rama o PR; migraciones con Supabase CLI | |
-| Fase 6 | MathLive y Compute Engine (carga diferida); Mafs para gráficas | Mafs está hecho para React; JSXGraph es más potente pero imperativo. |
+| Pieza              | Elección                                                                            | Por qué                                                                                                                                                                           |
+| ------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Base               | Vite + React + TypeScript (modo `strict`)                                           | Todo corre en el navegador, así que Next.js no aporta nada. TypeScript detecta errores en el banco de preguntas y evita que el agente rompa cosas sin darse cuenta.               |
+| Estilos            | Tailwind CSS v4 (`@tailwindcss/vite`)                                               | v1 ya usa clases de Tailwind, pero desde un CDN que no es para producción.                                                                                                        |
+| Rutas              | React Router en modo SPA                                                            | Cada pantalla de v1 pasa a ser una ruta.                                                                                                                                          |
+| Fórmulas           | KaTeX, con un componente `<Latex>` propio                                           | Es más rápido que MathJax, y un componente de pocas líneas evita depender de un envoltorio para React. Se llama `Latex` y no `Math` para no tapar el `Math` global de JavaScript. |
+| Backend            | Supabase: Auth con Google, Postgres con RLS y funciones RPC                         | Ya está empezado y el plan gratis alcanza.                                                                                                                                        |
+| Datos del servidor | `@supabase/supabase-js` (hooks propios; TanStack Query opcional)                    | Solo hay dos lecturas (`loadMyScores` y `fetchLeaderboard`) y la escritura usa una cola offline propia en `localStorage`.                                                         |
+| PWA                | `vite-plugin-pwa`                                                                   | Genera el service worker con los archivos versionados. Ya no hay que subir `CACHE_NAME` a mano.                                                                                   |
+| Pruebas            | Vitest + Testing Library; `zod` para validar el contenido                           |                                                                                                                                                                                   |
+| Calidad            | ESLint + Prettier; GitHub Actions corre typecheck, lint, pruebas y build en cada PR |                                                                                                                                                                                   |
+| Hosting            | Vercel, con un preview por rama o PR; migraciones con Supabase CLI                  |                                                                                                                                                                                   |
+| Fase 6             | MathLive y Compute Engine (carga diferida); Mafs para gráficas                      | Mafs está hecho para React; JSXGraph es más potente pero imperativo.                                                                                                              |
 
 Todo cabe en planes gratuitos: Vercel Hobby (uso no comercial), Supabase Free y Google OAuth.
 
@@ -97,13 +97,13 @@ Formato propuesto, compatible con v1:
 
 ```ts
 type Question = {
-  id: string;                            // estable, p. ej. "integral.por_partes.03"
-  topic: TopicId;                        // "fundamentos" | "diferencial" | "integral"
-  subtopic: SubtopicId;                  // antes `subtema`
-  prompt: string;                        // LaTeX, antes `q`
-  answer: string;                        // LaTeX, antes `a`
+  id: string; // estable, p. ej. "integral.por_partes.03"
+  topic: TopicId; // "fundamentos" | "diferencial" | "integral"
+  subtopic: SubtopicId; // antes `subtema`
+  prompt: string; // LaTeX, antes `q`
+  answer: string; // LaTeX, antes `a`
   distractors: [string, string, string];
-  games?: GameId[];                      // opcional: limitar la pregunta a ciertos juegos
+  games?: GameId[]; // opcional: limitar la pregunta a ciertos juegos
 };
 ```
 
@@ -221,16 +221,17 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 
 ### Fase 5: PWA, pulido y lanzamiento (mediana)
 
-- [ ] `vite-plugin-pwa` con actualización automática y aviso de "nueva versión".
-- [ ] Íconos PNG reales (192 y 512 px, maskable) y `apple-touch-icon`. v1 usa un emoji en SVG, que el iPhone no usa como ícono de la pantalla de inicio.
-- [ ] Si v1 estuvo publicada (la decisión 2 fue no publicarla, así que probablemente no aplica): dejar el service worker nuevo en `/sw.js`, la misma ruta que v1, para que reemplace al viejo, y borrar los cachés `math-arcade-v*`.
-- [ ] Modo invitado funcionando sin conexión.
-- [ ] Lighthouse en modo celular (rendimiento y accesibilidad), con cada juego en su propio chunk.
-- [ ] Pruebas en un iPhone y un Android reales: rotación, fórmulas largas, tamaño de botones e instalación.
-- [ ] Aviso de privacidad: preguntar al asesor si la UPQ pide uno.
-- [ ] Producción: proyecto de Supabase con las migraciones, variables en Vercel, dominio, *Site URL* y *Redirect URLs* en Supabase Auth, y orígenes autorizados en Google.
-- [ ] Borrar `legacy/`, fusionar `v2` en `main` y etiquetar `v2.0`.
-- [ ] Piloto con un grupo y recoger sus comentarios.
+- [x] `vite-plugin-pwa` con actualización controlada por el alumno (`registerType: 'prompt'`) y aviso de "nueva versión" / "listo para jugar sin conexión" (`src/components/UpdatePrompt.tsx`).
+- [x] Íconos PNG reales (`icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `favicon-32.png`) y `apple-touch-icon.png` en `public/`.
+- [x] El service worker nuevo queda en `/sw.js`, la misma ruta que v1, e importa `public/legacy-cleanup.js` para borrar los cachés `math-arcade-v*` si existieran.
+- [x] Modo invitado funcionando sin conexión (fuentes `@fontsource`, KaTeX, banco de preguntas y los 3 juegos precacheados por Workbox; las llamadas a Supabase quedan fuera del caché).
+- [x] División en chunks (`MemoryGame`, `BombGame`, `RaceGame`, `katex` y `question-bank` separados), cabeceras de seguridad (CSP, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) y caché inmutable para `/assets/*` en `vercel.json`.
+- [x] Borrador de aviso de privacidad en `/privacidad` (`src/pages/PrivacyPage.tsx`) enlazado en el pie de página; pendiente de visto bueno con el asesor.
+- [x] Borrado de `legacy/` y `scripts/convert-v1-content.mjs` (v1 queda preservada en el tag `v1.0`).
+- [ ] **Pendiente del dueño del proyecto** (guía paso a paso en [launch-checklist.md](launch-checklist.md)):
+  - aplicar migraciones en Supabase y probar en un iPhone y un Android reales;
+  - conectar Vercel, cargar variables de entorno y configurar URLs de redirección en Supabase Auth y Google Cloud;
+  - fusionar `v2` en `main`, etiquetar `v2.0` y correr el piloto con un grupo.
 
 **Listo cuando:** un grupo piloto la usa en producción sin bloqueos.
 
@@ -245,6 +246,7 @@ Una función a la vez, cada una con su propio mini plan.
    - números: comparar con tolerancia.
 
    Hay que revisar que el teclado virtual no tape la pregunta, ni en iOS ni en Android.
+
 2. **Gráficas interactivas** con Mafs: tangentes, área bajo la curva y límites.
 3. **Progreso por subtema** (dominio) y estadísticas por pregunta.
 4. **Para profesores:** grupos, panel de progreso y editor de ejercicios. Implica mover el contenido a la base de datos, crear un rol de profesor y más reglas de RLS. Solo vale la pena si algún profe lo va a usar.
@@ -261,31 +263,31 @@ Una función a la vez, cada una con su propio mini plan.
 
 ## 9. Riesgos
 
-| Riesgo | Mitigación |
-|---|---|
-| La UPQ bloquea el login con Google | Probarlo en la Fase 0; plan B con enlace mágico. |
-| La reescritura nunca termina | Paridad primero y funciones nuevas después; fases chicas con criterio de "Listo cuando". |
-| Trampas en el ranking | Límites por juego en el servidor; no usar el ranking para calificar. |
-| Datos personales de alumnos | Guardar lo mínimo, perfiles no públicos, apodos y aviso de privacidad. |
-| Supabase Free pausa el proyecto tras 7 días sin uso (por ejemplo, en vacaciones) | Reactivarlo desde el panel antes de que vuelvan los alumnos. |
-| La app pesa demasiado en celulares modestos | Carga diferida por juego; MathLive solo donde se use. |
-| Los alumnos ven versiones viejas en caché | `vite-plugin-pwa` con aviso de actualización. |
+| Riesgo                                                                           | Mitigación                                                                               |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| La UPQ bloquea el login con Google                                               | Probarlo en la Fase 0; plan B con enlace mágico.                                         |
+| La reescritura nunca termina                                                     | Paridad primero y funciones nuevas después; fases chicas con criterio de "Listo cuando". |
+| Trampas en el ranking                                                            | Límites por juego en el servidor; no usar el ranking para calificar.                     |
+| Datos personales de alumnos                                                      | Guardar lo mínimo, perfiles no públicos, apodos y aviso de privacidad.                   |
+| Supabase Free pausa el proyecto tras 7 días sin uso (por ejemplo, en vacaciones) | Reactivarlo desde el panel antes de que vuelvan los alumnos.                             |
+| La app pesa demasiado en celulares modestos                                      | Carga diferida por juego; MathLive solo donde se use.                                    |
+| Los alumnos ven versiones viejas en caché                                        | `vite-plugin-pwa` con aviso de actualización.                                            |
 
 ## 10. Decisiones
 
-| # | Decisión | Estado / Resolución |
-|---|---|---|
-| 1 | ¿Usar TypeScript? | **Sí.** En modo strict para prevenir errores de tipo y en el banco de preguntas. |
-| 2 | ¿Publicar v1 ya, sin cuentas, mientras se hace v2? | **No.** Enfoque total en v2.0 hasta el lanzamiento. |
-| 3 | ¿Modo invitado sin cuenta? | **Sí.** Se mantiene el juego local con `localStorage` como en v1. |
-| 4 | ¿Qué nombre aparece en el ranking? | **Apodo único** elegido por el alumno en su primer login; nunca el nombre real ni el correo. |
-| 5 | ¿Ranking global o por grupo? | **Global** en v2.0; soporte para grupos en la Fase 6 si se requiere. |
-| 6 | ¿Algún profe va a cargar ejercicios? | **No por ahora.** Se deja la arquitectura abierta en la Fase 6 según demanda. |
-| 7 | ¿Qué dominio? | `math-arcade.vercel.app` (o subdominio asignado por Vercel / UPQ). |
+| #   | Decisión                                           | Estado / Resolución                                                                          |
+| --- | -------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 1   | ¿Usar TypeScript?                                  | **Sí.** En modo strict para prevenir errores de tipo y en el banco de preguntas.             |
+| 2   | ¿Publicar v1 ya, sin cuentas, mientras se hace v2? | **No.** Enfoque total en v2.0 hasta el lanzamiento.                                          |
+| 3   | ¿Modo invitado sin cuenta?                         | **Sí.** Se mantiene el juego local con `localStorage` como en v1.                            |
+| 4   | ¿Qué nombre aparece en el ranking?                 | **Apodo único** elegido por el alumno en su primer login; nunca el nombre real ni el correo. |
+| 5   | ¿Ranking global o por grupo?                       | **Global** en v2.0; soporte para grupos en la Fase 6 si se requiere.                         |
+| 6   | ¿Algún profe va a cargar ejercicios?               | **No por ahora.** Se deja la arquitectura abierta en la Fase 6 según demanda.                |
+| 7   | ¿Qué dominio?                                      | `math-arcade.vercel.app` (o subdominio asignado por Vercel / UPQ).                           |
 
 ## 11. Cómo trabajar con el agente
 
-- Una sesión por fase o por tarea. Empieza con: *"Lee `docs/plan-v2.md` y `AGENTS.md`. Vamos con la Fase N."*
+- Una sesión por fase o por tarea. Empieza con: _"Lee `docs/plan-v2.md` y `AGENTS.md`. Vamos con la Fase N."_
 - Pide que marque en este documento las tareas terminadas.
 - Revisa cada PR y prueba el preview en tu celular antes de fusionarlo. En la Fase 4, haz además una revisión de seguridad del diff.
 - Si una decisión cambia, actualiza este documento antes de seguir.

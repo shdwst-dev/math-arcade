@@ -5,9 +5,9 @@ Las pruebas de `src/content/content.test.ts` validan el esquema, los ids únicos
 
 ## Hueco que impide jugar
 
-| Subtema | Juego | Tiene | Necesita |
-|---|---|---|---|
-| Fundamentos › Ec. 1er Grado (`ecuaciones_1`) | Memorama | 4 | 6 |
+| Subtema                                      | Juego    | Tiene | Necesita |
+| -------------------------------------------- | -------- | ----- | -------- |
+| Fundamentos › Ec. 1er Grado (`ecuaciones_1`) | Memorama | 4     | 6        |
 
 Bomba y Carrera sí se pueden jugar en ese subtema (necesitan 3). En la app, la tarjeta del Memorama aparece deshabilitada con el motivo. Al agregar 2 preguntas o más, hay que quitar `fundamentos.ecuaciones_1.memory` de `KNOWN_GAPS` en `content.test.ts` (la prueba avisa si se olvida).
 
@@ -21,4 +21,5 @@ Bomba y Carrera sí se pueden jugar en ese subtema (necesitan 3). En la app, la 
   - **Carrera (6 objetos):** Matrices 43, 49, 50, 57, 64 · Sumas de Riemann 07.
 
   Bomba y Carrera: sin ninguna pregunta que no quepa (enunciado). Si se quiere resolver sin tocar el texto, el campo opcional `games` permite sacar esas pocas preguntas del Memorama (ningún subtema se queda sin las 6 que necesita).
+
 - **Un carácter fuera del conjunto de KaTeX:** `integral.integrales_metodos.01` empieza con "¿" dentro de `\text{}`. Se renderiza bien (usa la fuente del sistema), pero KaTeX en modo estricto lo marca como no estándar.
