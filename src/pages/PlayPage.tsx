@@ -19,9 +19,7 @@ export const PlayPage: React.FC = () => {
         >
           ← Salir del juego
         </Link>
-        <span className="font-pixel text-xs text-yellow-400">
-          PUNTOS: 0
-        </span>
+        <span className="font-pixel text-xs text-yellow-400">PUNTOS: 0</span>
       </div>
 
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center min-h-[300px] flex flex-col items-center justify-center">

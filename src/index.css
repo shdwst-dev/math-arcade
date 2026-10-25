@@ -1,8 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --font-pixel: "Press Start 2P", cursive;
-  --font-sans: "Roboto", system-ui, -apple-system, sans-serif;
+  --font-pixel: 'Press Start 2P', cursive;
+  --font-sans: 'Roboto', system-ui, -apple-system, sans-serif;
 }
 
 /* Clases utilitarias temáticas de Arcade */
@@ -24,4 +24,9 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Fórmulas en bloque más compactas: las tarjetas y botones de los juegos son pequeños */
+.katex-display {
+  margin: 0.25em 0;
 }

@@ -7,7 +7,7 @@ Este documento define las pautas técnicas y convenciones para agentes de IA y d
 ## 1. Stack y Arquitectura
 
 - **Frontend:** Vite + React + TypeScript (`strict: true`) + Tailwind CSS v4 (`@tailwindcss/vite`) + React Router (SPA).
-- **Matemáticas:** KaTeX mediante componente `<Math>` propio (en línea y en bloque).
+- **Matemáticas:** KaTeX mediante el componente `<Latex>` propio (en línea y en bloque). No llamarlo `Math`: taparía el `Math` global.
 - **Backend:** Supabase (Auth con Google `@upq.edu.mx`, Postgres con RLS y RPC `record_game_result`).
 - **Arquitectura de juegos:**
   - La lógica de cada juego es TypeScript puro (`logic.ts`), desacoplada de React (reducers / máquinas de estado).

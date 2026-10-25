@@ -40,7 +40,7 @@ Math Arcade ("Math Arcade: El Desafío") es una app web de minijuegos de matemá
 | Base | Vite + React + TypeScript (modo `strict`) | Todo corre en el navegador, así que Next.js no aporta nada. TypeScript detecta errores en el banco de preguntas y evita que el agente rompa cosas sin darse cuenta. |
 | Estilos | Tailwind CSS v4 (`@tailwindcss/vite`) | v1 ya usa clases de Tailwind, pero desde un CDN que no es para producción. |
 | Rutas | React Router en modo SPA | Cada pantalla de v1 pasa a ser una ruta. |
-| Fórmulas | KaTeX, con un componente `<Math>` propio | Es más rápido que MathJax, y un componente de pocas líneas evita depender de un envoltorio para React. |
+| Fórmulas | KaTeX, con un componente `<Latex>` propio | Es más rápido que MathJax, y un componente de pocas líneas evita depender de un envoltorio para React. Se llama `Latex` y no `Math` para no tapar el `Math` global de JavaScript. |
 | Backend | Supabase: Auth con Google, Postgres con RLS y funciones RPC | Ya está empezado y el plan gratis alcanza. |
 | Datos del servidor | `@supabase/supabase-js` (hooks propios; TanStack Query opcional) | Solo hay dos lecturas (`loadMyScores` y `fetchLeaderboard`) y la escritura usa una cola offline propia en `localStorage`. |
 | PWA | `vite-plugin-pwa` | Genera el service worker con los archivos versionados. Ya no hay que subir `CACHE_NAME` a mano. |
@@ -61,7 +61,7 @@ math-arcade/
 ├── src/
 │   ├── main.tsx, App.tsx, routes.tsx
 │   ├── pages/             # Home, Topic, GameSelect, Play, Stats, Ranking, Account
-│   ├── components/        # Math, Modal, Button, GameShell, GameOverModal, Tutorial…
+│   ├── components/        # Latex, Modal, Button, GameShell, GameOverModal, Tutorial…
 │   ├── content/
 │   │   ├── schema.ts      # tipos + esquema zod
 │   │   ├── topics.ts      # temas y subtemas (antes subtemas.js)
@@ -159,17 +159,18 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 - [x] Crear el proyecto con Vite, React, TypeScript, Tailwind v4, React Router, ESLint, Prettier y Vitest.
 - [x] Layout mobile-first: encabezado, navegación y el estilo arcade de v1 (fuente Press Start 2P y sus colores).
 - [x] `vercel.json` con el comando de build, la carpeta `dist` y el rewrite de la SPA. Así cada rama compila bien aunque `main` siga siendo HTML estático.
-- [ ] Conectar el repo a Vercel, con `main` como producción, y cargar las variables de entorno.
+- [ ] Conectar el repo a Vercel, con `main` como producción, y cargar las variables de entorno. (Pendiente del dueño del proyecto: requiere su cuenta de Vercel.)
 - [x] GitHub Actions: typecheck, lint, pruebas y build.
 
 **Listo cuando:** el preview de Vercel abre en celular y en PC, se puede navegar entre pantallas vacías y el CI pasa.
 
 ### Fase 2: Contenido y fórmulas (mediana)
 
-- [ ] Esquema del contenido y script que convierte los tres bancos de preguntas y los subtemas.
-- [ ] Componente `<Math>` con KaTeX: modo en línea y en bloque, con scroll horizontal para fórmulas largas.
-- [ ] Pruebas del contenido (sección 5).
-- [ ] Pantallas Tema → Subtema → Selección de juego, con selector de dificultad y mejores puntajes.
+- [x] Esquema del contenido y script que convierte los tres bancos de preguntas y los subtemas (`scripts/convert-v1-content.mjs`; se borra con `legacy/` en la Fase 5). Se verificó que las 293 preguntas quedaron idénticas a v1.
+- [x] Componente `<Latex>` con KaTeX: modo en línea y en bloque, con scroll horizontal para fórmulas largas.
+- [x] Pruebas del contenido (sección 5).
+- [x] Pantallas Tema → Subtema → Selección de juego, con selector de dificultad y mejores puntajes (locales; los de la nube se suman en la Fase 4).
+- [x] Reporte de huecos de contenido: [docs/content-gaps.md](content-gaps.md).
 
 **Listo cuando:** las 293 preguntas están migradas, las pruebas pasan y hay un reporte de los huecos de contenido.
 

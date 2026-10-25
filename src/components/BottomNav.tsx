@@ -17,7 +17,8 @@ export const BottomNav: React.FC = () => {
         {navItems.map((item) => {
           const isActive =
             item.path === '/'
-              ? location.pathname === '/' || location.pathname.startsWith('/topic')
+              ? location.pathname === '/' ||
+                location.pathname.startsWith('/topic')
               : location.pathname.startsWith(item.path);
 
           return (

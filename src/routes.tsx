@@ -1,4 +1,8 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  type RouteObject,
+} from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { TopicPage } from './pages/TopicPage';
@@ -8,7 +12,7 @@ import { StatsPage } from './pages/StatsPage';
 import { RankingPage } from './pages/RankingPage';
 import { AccountPage } from './pages/AccountPage';
 
-export const router = createBrowserRouter([
+export const routes: RouteObject[] = [
   {
     path: '/',
     element: <Layout />,
@@ -23,4 +27,6 @@ export const router = createBrowserRouter([
       { path: '*', element: <Navigate to="/" replace /> },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(routes);

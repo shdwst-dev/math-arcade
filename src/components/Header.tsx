@@ -11,7 +11,9 @@ export const Header: React.FC = () => {
           to="/"
           className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-lg p-1"
         >
-          <span className="text-2xl transition-transform group-hover:scale-110">🧮</span>
+          <span className="text-2xl transition-transform group-hover:scale-110">
+            🧮
+          </span>
           <h1 className="font-pixel text-sm sm:text-base text-yellow-400 tracking-wider">
             MATH ARCADE
           </h1>
