@@ -145,10 +145,7 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 
 - [x] Commitear lo pendiente de v1 y crear la etiqueta `v1.0` como punto de referencia.
 - [x] Decidir si se publica v1 ya, en modo invitado, para que los alumnos la usen mientras se hace v2. (Decidido: no publicar v1; enfoque total en v2).
-- [ ] **Probar el login con Google antes de construir nada encima.** Crear el proyecto de desarrollo en Supabase y el cliente OAuth en Google Cloud, y entrar con 2 o 3 cuentas `@upq.edu.mx` reales.
-  - Riesgos: que el Google Workspace de la UPQ bloquee apps externas, o que la pantalla de consentimiento se quede en modo de prueba.
-  - Si el proyecto de Google Cloud se puede crear con una cuenta de la UPQ, el tipo de usuario "Interno" solo deja entrar cuentas de la escuela. Si no, se usa "Externo" y se publica la app.
-  - Plan B si Google no funciona: enlace mágico al correo `@upq.edu.mx` con un servidor SMTP propio.
+- [x] **Probar el login con Google antes de construir nada encima.** Probado con éxito con cuenta institucional real `@upq.edu.mx`. Google Workspace permite la app sin bloqueos.
 - [x] Crear la rama `v2`.
 - [x] Crear `AGENTS.md` con las convenciones de la sección 8, y un `CLAUDE.md` (y `GEMINI.md`, si se usa Gemini) que solo apunte a él.
 - [x] Revisar si las ramas remotas `test` y `copilot/revisar-repositorio` todavía sirven; si no, borrarlas. (Verificadas e integradas; ramas remotas eliminadas).
