@@ -144,15 +144,15 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 ### Fase 0: Preparación (chica)
 
 - [x] Commitear lo pendiente de v1 y crear la etiqueta `v1.0` como punto de referencia.
-- [ ] Decidir si se publica v1 ya, en modo invitado, para que los alumnos la usen mientras se hace v2. Mejor no publicarla con cuentas de correo y contraseña: después habría que pasar esas cuentas a Google.
+- [x] Decidir si se publica v1 ya, en modo invitado, para que los alumnos la usen mientras se hace v2. (Decidido: no publicar v1; enfoque total en v2).
 - [ ] **Probar el login con Google antes de construir nada encima.** Crear el proyecto de desarrollo en Supabase y el cliente OAuth en Google Cloud, y entrar con 2 o 3 cuentas `@upq.edu.mx` reales.
   - Riesgos: que el Google Workspace de la UPQ bloquee apps externas, o que la pantalla de consentimiento se quede en modo de prueba.
   - Si el proyecto de Google Cloud se puede crear con una cuenta de la UPQ, el tipo de usuario "Interno" solo deja entrar cuentas de la escuela. Si no, se usa "Externo" y se publica la app.
   - Plan B si Google no funciona: enlace mágico al correo `@upq.edu.mx` con un servidor SMTP propio.
 - [x] Crear la rama `v2`.
 - [x] Crear `AGENTS.md` con las convenciones de la sección 8, y un `CLAUDE.md` (y `GEMINI.md`, si se usa Gemini) que solo apunte a él.
-- [ ] Revisar si las ramas remotas `test` y `copilot/revisar-repositorio` todavía sirven; si no, borrarlas.
-- [ ] Resolver las decisiones de la sección 10.
+- [x] Revisar si las ramas remotas `test` y `copilot/revisar-repositorio` todavía sirven; si no, borrarlas. (Verificadas e integradas; ramas remotas eliminadas).
+- [x] Resolver las decisiones de la sección 10.
 
 **Listo cuando:** v1 está etiquetada, el login con una cuenta de la UPQ funciona en el proyecto de desarrollo y las decisiones están tomadas.
 
@@ -255,17 +255,17 @@ Una función a la vez, cada una con su propio mini plan.
 | La app pesa demasiado en celulares modestos | Carga diferida por juego; MathLive solo donde se use. |
 | Los alumnos ven versiones viejas en caché | `vite-plugin-pwa` con aviso de actualización. |
 
-## 10. Decisiones pendientes
+## 10. Decisiones
 
-| # | Decisión | Recomendación |
+| # | Decisión | Estado / Resolución |
 |---|---|---|
-| 1 | ¿Usar TypeScript? | Sí. |
-| 2 | ¿Publicar v1 ya, sin cuentas, mientras se hace v2? | Sí, si quieres que la usen este periodo. |
-| 3 | ¿Modo invitado sin cuenta? | Sí, como en v1. |
-| 4 | ¿Qué nombre aparece en el ranking? | Un apodo elegido por el alumno; nunca el correo ni el nombre completo. |
-| 5 | ¿Ranking global o por grupo? | Global en v2.0; por grupo en la Fase 6. |
-| 6 | ¿Algún profe va a cargar ejercicios? | La respuesta decide si vale la pena el punto 4 de la Fase 6. |
-| 7 | ¿Qué dominio? | `math-arcade.vercel.app` si está libre, o uno de la UPQ. |
+| 1 | ¿Usar TypeScript? | **Sí.** En modo strict para prevenir errores de tipo y en el banco de preguntas. |
+| 2 | ¿Publicar v1 ya, sin cuentas, mientras se hace v2? | **No.** Enfoque total en v2.0 hasta el lanzamiento. |
+| 3 | ¿Modo invitado sin cuenta? | **Sí.** Se mantiene el juego local con `localStorage` como en v1. |
+| 4 | ¿Qué nombre aparece en el ranking? | **Apodo único** elegido por el alumno en su primer login; nunca el nombre real ni el correo. |
+| 5 | ¿Ranking global o por grupo? | **Global** en v2.0; soporte para grupos en la Fase 6 si se requiere. |
+| 6 | ¿Algún profe va a cargar ejercicios? | **No por ahora.** Se deja la arquitectura abierta en la Fase 6 según demanda. |
+| 7 | ¿Qué dominio? | `math-arcade.vercel.app` (o subdominio asignado por Vercel / UPQ). |
 
 ## 11. Cómo trabajar con el agente
 
