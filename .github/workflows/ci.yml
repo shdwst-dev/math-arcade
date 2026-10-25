@@ -34,3 +34,37 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  # Migraciones de Supabase y pruebas de seguridad (RLS, límites, dominio) en un
+  # Postgres desechable que emula lo mínimo de Supabase. Ver supabase/tests/run.sh.
+  database:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Migrations and SQL tests
+        run: supabase/tests/run.sh
