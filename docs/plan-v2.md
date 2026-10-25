@@ -155,12 +155,12 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 
 ### Fase 1: Esqueleto y despliegue (chica)
 
-- [ ] Mover el código de v1 a `legacy/` como referencia. Se borra en la Fase 5.
-- [ ] Crear el proyecto con Vite, React, TypeScript, Tailwind v4, React Router, ESLint, Prettier y Vitest.
-- [ ] Layout mobile-first: encabezado, navegación y el estilo arcade de v1 (fuente Press Start 2P y sus colores).
-- [ ] `vercel.json` con el comando de build, la carpeta `dist` y el rewrite de la SPA. Así cada rama compila bien aunque `main` siga siendo HTML estático.
+- [x] Mover el código de v1 a `legacy/` como referencia. Se borra en la Fase 5.
+- [x] Crear el proyecto con Vite, React, TypeScript, Tailwind v4, React Router, ESLint, Prettier y Vitest.
+- [x] Layout mobile-first: encabezado, navegación y el estilo arcade de v1 (fuente Press Start 2P y sus colores).
+- [x] `vercel.json` con el comando de build, la carpeta `dist` y el rewrite de la SPA. Así cada rama compila bien aunque `main` siga siendo HTML estático.
 - [ ] Conectar el repo a Vercel, con `main` como producción, y cargar las variables de entorno.
-- [ ] GitHub Actions: typecheck, lint, pruebas y build.
+- [x] GitHub Actions: typecheck, lint, pruebas y build.
 
 **Listo cuando:** el preview de Vercel abre en celular y en PC, se puede navegar entre pantallas vacías y el CI pasa.
 
