@@ -1,17 +1,19 @@
-const CACHE_NAME = 'math-arcade-v1';
+const CACHE_NAME = 'math-arcade-v2';
 const ASSETS_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/css/styles.css',
-    '/js/app.js',
-    '/js/storage.js',
-    '/js/data/subtemas.js',
-    '/js/data/fundamentos.js',
-    '/js/data/diferencial.js',
-    '/js/data/integral.js',
-    '/js/games/memory.js',
-    '/js/games/bomb.js',
-    '/js/games/race.js',
+    './',
+    './index.html',
+    './css/styles.css',
+    './js/config.js',
+    './js/app.js',
+    './js/storage.js',
+    './js/cloud.js',
+    './js/data/subtemas.js',
+    './js/data/fundamentos.js',
+    './js/data/diferencial.js',
+    './js/data/integral.js',
+    './js/games/memory.js',
+    './js/games/bomb.js',
+    './js/games/race.js',
     'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap'
 ];
 
@@ -41,8 +43,13 @@ self.addEventListener('activate', (event) => {
 
 // Interceptar peticiones (estrategia Cache First)
 self.addEventListener('fetch', (event) => {
-    // Si es una petición a MathJax o Tailwind CDN, intentamos la red y luego cache
-    if (event.request.url.includes('cdn.tailwindcss.com') || event.request.url.includes('mathjax')) {
+    // Las llamadas a la API de Supabase (auth, base de datos) siempre van a la red
+    if (event.request.method !== 'GET' || event.request.url.includes('.supabase.co')) {
+        return;
+    }
+
+    // Si es una petición a MathJax, Tailwind o el SDK de Supabase, intentamos la red y luego cache
+    if (event.request.url.includes('cdn.tailwindcss.com') || event.request.url.includes('mathjax') || event.request.url.includes('supabase-js')) {
         event.respondWith(
             caches.match(event.request).then((cachedResponse) => {
                 const fetchPromise = fetch(event.request).then((networkResponse) => {

@@ -29,7 +29,10 @@
             <span id="current-topic-display" class="text-blue-300">Tema: --</span>
             <span id="score-display" class="text-green-400">Puntos: 0</span>
         </div>
-        <button onclick="goToMenu()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1 rounded">Salir</button>
+        <div class="flex items-center gap-2">
+            <button id="auth-btn" onclick="openAuthModal()" class="hidden text-xs bg-gray-700 hover:bg-gray-600 border border-gray-500 px-3 py-1 rounded max-w-[10rem] truncate">👤 Entrar</button>
+            <button onclick="goToMenu()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1 rounded">Salir</button>
+        </div>
     </header>
 
     <!-- CONTENEDOR PRINCIPAL DE PANTALLAS -->
@@ -58,9 +61,12 @@
                     <p class="text-sm text-gray-300 mt-2">Áreas y Sumas</p>
                 </button>
             </div>
-            <div class="mt-8">
+            <div class="mt-8 flex flex-wrap gap-4 justify-center">
                 <button onclick="showStats()" class="bg-gray-800 hover:bg-gray-700 px-8 py-3 rounded-xl border-2 border-yellow-500 text-yellow-400 font-bold transition-all hover:scale-105">
                     🏆 Ver mis Récords
+                </button>
+                <button id="ranking-btn" onclick="showRanking()" class="hidden bg-gray-800 hover:bg-gray-700 px-8 py-3 rounded-xl border-2 border-cyan-500 text-cyan-300 font-bold transition-all hover:scale-105">
+                    🌐 Ranking Global
                 </button>
             </div>
         </div>
@@ -227,11 +233,82 @@
             </div>
         </div>
 
+        <!-- PANTALLA 5: RANKING GLOBAL -->
+        <div id="screen-ranking" class="hidden w-full max-w-4xl text-center space-y-4 flex flex-col h-[80vh]">
+            <h2 class="text-3xl font-bold mb-2">🌐 Ranking Global</h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 shrink-0">
+                <select id="rank-topic" onchange="onRankingTopicChange()" class="bg-gray-800 border border-gray-600 text-white rounded p-2">
+                    <option value="fundamentos">Fundamentos</option>
+                    <option value="diferencial">Cálculo Diferencial</option>
+                    <option value="integral">Cálculo Integral</option>
+                </select>
+                <select id="rank-subtopic" onchange="loadRanking()" class="bg-gray-800 border border-gray-600 text-white rounded p-2"></select>
+                <select id="rank-game" onchange="loadRanking()" class="bg-gray-800 border border-gray-600 text-white rounded p-2">
+                    <option value="memory">🃏 Memorama</option>
+                    <option value="bomb">💣 Bomba</option>
+                    <option value="race">🏎️ Carrera</option>
+                </select>
+                <select id="rank-difficulty" onchange="loadRanking()" class="bg-gray-800 border border-gray-600 text-white rounded p-2 disabled:opacity-40">
+                    <option value="Fácil">Fácil</option>
+                    <option value="Normal" selected>Normal</option>
+                    <option value="Difícil">Difícil</option>
+                </select>
+            </div>
+
+            <div id="ranking-list" class="flex-grow overflow-y-auto bg-gray-800 rounded-xl p-4 border-2 border-gray-600 text-left space-y-2">
+                <!-- Se llena dinámicamente con JS -->
+            </div>
+
+            <div class="shrink-0">
+                <button onclick="showScreen('topic')" class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-2 rounded font-bold transition-transform hover:scale-105">← Volver al Menú</button>
+            </div>
+        </div>
+
+        <!-- MODAL CUENTA (LOGIN / REGISTRO) -->
+        <div id="modal-auth" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+            <div class="bg-gray-800 p-6 rounded-xl border-2 border-cyan-500 max-w-md w-full relative">
+                <button onclick="closeAuthModal()" class="absolute top-2 right-4 text-gray-400 hover:text-white text-3xl font-bold">&times;</button>
+
+                <div id="auth-forms">
+                    <div class="flex mb-4 border-b border-gray-600">
+                        <button id="tab-login" onclick="setAuthMode('login')" class="auth-tab flex-1 py-2 font-bold">Iniciar sesión</button>
+                        <button id="tab-register" onclick="setAuthMode('register')" class="auth-tab flex-1 py-2 font-bold">Crear cuenta</button>
+                    </div>
+                    <form onsubmit="submitAuth(event)" class="space-y-3 text-left">
+                        <div id="auth-username-row" class="hidden">
+                            <label for="auth-username" class="text-sm text-gray-300">Nombre de jugador (visible en el ranking)</label>
+                            <input id="auth-username" type="text" maxlength="20" autocomplete="nickname" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-white">
+                        </div>
+                        <div>
+                            <label for="auth-email" class="text-sm text-gray-300">Correo</label>
+                            <input id="auth-email" type="email" required autocomplete="email" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-white">
+                        </div>
+                        <div>
+                            <label for="auth-password" class="text-sm text-gray-300">Contraseña</label>
+                            <input id="auth-password" type="password" required minlength="6" autocomplete="current-password" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-white">
+                        </div>
+                        <p id="auth-error" class="text-sm text-yellow-300 min-h-[1.25rem]"></p>
+                        <button id="auth-submit" type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white font-bold py-2 rounded">Entrar</button>
+                    </form>
+                </div>
+
+                <div id="auth-account" class="hidden text-center space-y-3">
+                    <div class="text-5xl">👤</div>
+                    <h2 id="account-name" class="text-2xl font-bold text-cyan-300"></h2>
+                    <p id="account-email" class="text-sm text-gray-400"></p>
+                    <p id="account-stats" class="text-sm text-gray-300"></p>
+                    <button onclick="logout()" class="w-full bg-red-700 hover:bg-red-600 text-white font-bold py-2 rounded">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
+
         <!-- MODAL GAME OVER -->
         <div id="modal-gameover" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
             <div class="bg-gray-800 p-8 rounded-xl text-center border-2 border-white max-w-md w-full">
                 <h2 id="go-title" class="text-3xl font-bold mb-4 pixel-font text-yellow-400">GAME OVER</h2>
-                <p id="go-message" class="text-xl mb-6">Puntuación Final: 100</p>
+                <p id="go-message" class="text-xl mb-2">Puntuación Final: 100</p>
+                <p id="go-cloud" class="text-xs text-cyan-300 mb-6 min-h-[1rem]"></p>
                 <div class="flex flex-col gap-3">
                     <button onclick="restartGame()" class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded font-bold transition-transform hover:scale-105">Jugar de Nuevo</button>
                     <button onclick="showScreen('gameSelect'); document.getElementById('modal-gameover').classList.add('hidden');" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded font-bold transition-transform hover:scale-105">Cambiar Subtema</button>
@@ -347,8 +424,13 @@
     <script src="js/data/diferencial.js"></script>
     <script src="js/data/integral.js"></script>
 
+    <!-- Scripts: Backend (Supabase) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="js/config.js"></script>
+
     <!-- Scripts: Utilidades -->
     <script src="js/storage.js"></script>
+    <script src="js/cloud.js"></script>
 
     <!-- Scripts: Juegos -->
     <script src="js/games/memory.js"></script>

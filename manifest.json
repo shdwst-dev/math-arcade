@@ -2,7 +2,7 @@
     "name": "Math Arcade: El Desafío",
     "short_name": "Math Arcade",
     "description": "Una aplicación web interactiva para aprender matemáticas con minijuegos.",
-    "start_url": "/index.html",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#1a202c",
     "theme_color": "#ecc94b",
