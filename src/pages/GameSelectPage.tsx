@@ -14,7 +14,8 @@ import {
   DIFFICULTIES,
   type Difficulty,
 } from '../games/ids';
-import { GAMES } from '../games/registry';
+import { GAMES, type GameMeta } from '../games/registry';
+import { TutorialModal } from '../components/TutorialModal';
 import {
   effectiveDifficulty,
   getBestScore,
@@ -26,6 +27,7 @@ export const GameSelectPage: React.FC = () => {
     subtopicId: string;
   }>();
   const [difficulty, setDifficulty] = useState<Difficulty>(DEFAULT_DIFFICULTY);
+  const [tutorialGame, setTutorialGame] = useState<GameMeta | null>(null);
 
   if (!isTopicId(topicId)) return <Navigate to="/" replace />;
   if (!isSubtopicSelection(topicId, subtopicId)) {
@@ -108,6 +110,17 @@ export const GameSelectPage: React.FC = () => {
               <div
                 className={clsx('absolute inset-0 opacity-10', game.accent)}
               />
+              <button
+                type="button"
+                onClick={() => setTutorialGame(game)}
+                aria-label={`Cómo se juega ${game.name}`}
+                className={clsx(
+                  'absolute right-2 top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full text-lg font-bold text-white shadow-lg hover:opacity-90',
+                  game.accent
+                )}
+              >
+                ?
+              </button>
               <div className="relative">
                 <div className="text-3xl mb-2" aria-hidden="true">
                   {game.icon}
@@ -139,6 +152,13 @@ export const GameSelectPage: React.FC = () => {
           );
         })}
       </div>
+
+      {tutorialGame && (
+        <TutorialModal
+          game={tutorialGame}
+          onClose={() => setTutorialGame(null)}
+        />
+      )}
     </div>
   );
 };

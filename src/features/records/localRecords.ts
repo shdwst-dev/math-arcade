@@ -110,8 +110,8 @@ export function getBestScore(target: RecordTarget): number {
 }
 
 /**
- * Guarda el puntaje si supera al récord anterior. Devuelve `true` solo si fue un
- * nuevo récord y se pudo guardar.
+ * Guarda el puntaje si supera al récord anterior (o a 0 si no hay). Devuelve
+ * `true` solo si fue un nuevo récord y se pudo guardar.
  */
 export function saveIfHighScore(
   target: RecordTarget,
@@ -120,8 +120,8 @@ export function saveIfHighScore(
 ): boolean {
   const all = readAll();
   const key = storageKey(target);
-  const previous = all[key];
-  if (previous && score <= previous.score) return false;
+  // Sin récord previo cuenta como 0: un puntaje de 0 o negativo nunca es récord.
+  if (score <= (all[key]?.score ?? 0)) return false;
   all[key] = { score, date: now.toISOString() };
   return writeAll(all);
 }

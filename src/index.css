@@ -30,3 +30,115 @@
 .katex-display {
   margin: 0.25em 0;
 }
+
+/* ---- Memorama: cartas que se voltean ---- */
+.flip-card {
+  perspective: 1000px;
+  cursor: pointer;
+}
+.flip-card-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  backface-visibility: hidden;
+}
+.flip-card-front {
+  background-color: #2d3748;
+  color: white;
+  font-size: 2rem;
+  border: 2px solid #4a5568;
+}
+.flip-card-back {
+  background-color: white;
+  color: black;
+  transform: rotateY(180deg);
+  border: 2px solid #4299e1;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  overflow-y: auto;
+}
+
+/* ---- Bomba ---- */
+@keyframes pulse-red {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+.bomb-active {
+  animation: pulse-red 1s infinite;
+}
+
+/* ---- Carrera ---- */
+.lane {
+  border-right: 2px dashed rgba(255, 255, 255, 0.2);
+}
+.lane:last-child {
+  border-right: none;
+}
+
+/* ---- Nuevo récord ---- */
+@keyframes record-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+.new-record {
+  animation: record-pulse 0.6s ease-in-out 3;
+  display: inline-block;
+}
+
+/* Quien prefiere menos movimiento no ve voltear cartas, pulsos ni transiciones largas */
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner {
+    transition: none;
+  }
+  .bomb-active,
+  .new-record,
+  .screen-fade-in {
+    animation: none;
+  }
+}
+
+/*
+ * KaTeX no parte el texto en renglones (fuerza white-space: nowrap). En las
+ * tarjetas, cables y preguntas de los juegos hay poco ancho, así que ahí se
+ * permite que el texto de \text{…} salte de línea. Las fórmulas no se parten:
+ * KaTeX no deja espacios donde no deben cortarse.
+ */
+.latex-wrap .katex-display > .katex,
+.latex-wrap .katex {
+  white-space: normal;
+}
+.latex-wrap .katex .katex-base {
+  white-space: normal;
+  width: auto;
+}

@@ -176,13 +176,22 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 
 ### Fase 3: Juegos (grande)
 
-- [ ] `GameShell` común: barra de puntos, botón para salir, modal de fin de juego, confeti (respetando `prefers-reduced-motion`) y aviso de preguntas insuficientes.
-- [ ] Memorama con las mismas reglas: 6 pares, +100 por acierto y −10 por error. Cuadrícula de 3 columnas en celular y 4 en PC, con fórmulas que se ajusten al tamaño de la carta.
-- [ ] Bomba: 30 s, +5 s por acierto y −5 s por error, 5 aciertos para ganar, +50 y −20 puntos. Opciones en una cuadrícula de 2 × 2 con botones de al menos 44 px.
-- [ ] Carrera: velocidades, frecuencia de aparición y metas por dificultad iguales a v1 (`legacy/js/games/race.js`), normalizadas con `deltaTime` a 60 FPS y posiciones en porcentaje.
-- [ ] Tutoriales con el mismo texto de v1.
-- [ ] Récords locales para el modo invitado. Si v1 llegó a publicarse en el mismo dominio, importar la llave `mathArcade_scores` de `localStorage`.
-- [ ] Pruebas unitarias de la lógica de cada juego.
+- [x] `GameShell` común: barra de puntos, botón para salir, modal de fin de juego, confeti (respetando `prefers-reduced-motion`) y aviso de preguntas insuficientes (en la selección de juego, con la tarjeta deshabilitada y el motivo).
+- [x] Memorama con las mismas reglas: 6 parejas, +100 por acierto y −10 por error. Cuadrícula de 3 columnas en celular y 4 en PC, con fórmulas que se ajustan al tamaño de la carta.
+- [x] Bomba: 30 s, +5 s por acierto y −5 s por error, 5 aciertos para ganar, +50 y −20 puntos. Opciones en una cuadrícula de 2 × 2 con botones de al menos 44 px.
+- [x] Carrera: velocidades, frecuencia de aparición y metas por dificultad iguales a v1 (`legacy/js/games/race.js`), normalizadas con `deltaTime` a 60 FPS y posiciones en porcentaje.
+- [x] Tutoriales con el mismo texto de v1 (botón `?` en cada tarjeta de la selección de juego).
+- [x] Récords locales para el modo invitado, con el mismo formato y llave (`mathArcade_scores`) que v1, así que los récords ya guardados en el navegador siguen funcionando.
+- [x] Pruebas unitarias de la lógica de cada juego, de los componentes y del flujo completo de una partida.
+
+**Diferencias deliberadas respecto a v1** (reglas y números no cambian):
+
+- Carrera: los objetos que ya cayeron para una pregunta anterior quedan inertes (atenuados). En v1 un acierto "viejo" volvía a dar +50 y cambiaba la pregunta.
+- Carrera: la cadencia de aparición se mide como tiempo transcurrido desde el objeto anterior. v1 usaba `frame % N`, que dejaba un hueco irregular cada vez que N cambiaba al subir la dificultad.
+- Un puntaje de 0 o negativo nunca cuenta como récord (v1 lo guardaba como "nuevo récord" en la primera partida).
+- El texto de `\text{…}` salta de línea en cartas, cables y objetos, y las fórmulas se reducen hasta el 60 % para caber (v1 las dejaba cortadas o con scroll).
+- El tutorial de Carrera dice que la meta es 300, 500 u 800 según la dificultad (v1 decía siempre 500).
+- Las cartas del Memorama se barajan con Fisher-Yates (el `sort(() => 0.5 - Math.random())` de v1 reparte de forma sesgada).
 
 **Listo cuando:** los tres juegos se juegan igual que en v1, en celular y en PC, y las pruebas pasan.
 
@@ -205,7 +214,7 @@ El tamaño (chica, mediana, grande) es el esfuerzo relativo entre fases.
 
 - [ ] `vite-plugin-pwa` con actualización automática y aviso de "nueva versión".
 - [ ] Íconos PNG reales (192 y 512 px, maskable) y `apple-touch-icon`. v1 usa un emoji en SVG, que el iPhone no usa como ícono de la pantalla de inicio.
-- [ ] Si v1 estuvo publicada: dejar el service worker nuevo en `/sw.js`, la misma ruta que v1, para que reemplace al viejo, y borrar los cachés `math-arcade-v*`.
+- [ ] Si v1 estuvo publicada (la decisión 2 fue no publicarla, así que probablemente no aplica): dejar el service worker nuevo en `/sw.js`, la misma ruta que v1, para que reemplace al viejo, y borrar los cachés `math-arcade-v*`.
 - [ ] Modo invitado funcionando sin conexión.
 - [ ] Lighthouse en modo celular (rendimiento y accesibilidad), con cada juego en su propio chunk.
 - [ ] Pruebas en un iPhone y un Android reales: rotación, fórmulas largas, tamaño de botones e instalación.

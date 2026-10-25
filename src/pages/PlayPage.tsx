@@ -1,5 +1,16 @@
 import React from 'react';
-import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { Navigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  ALL_SUBTOPICS,
+  getQuestions,
+  getSubtopics,
+  getTopic,
+  isSubtopicSelection,
+  isTopicId,
+} from '../content';
+import { DEFAULT_DIFFICULTY, isDifficulty, isGameId } from '../games/ids';
+import { getGame } from '../games/registry';
+import { GameShell } from '../components/GameShell';
 
 export const PlayPage: React.FC = () => {
   const { topicId, subtopicId, gameId } = useParams<{
@@ -8,31 +19,37 @@ export const PlayPage: React.FC = () => {
     gameId: string;
   }>();
   const [searchParams] = useSearchParams();
-  const difficulty = searchParams.get('difficulty') || 'Normal';
+
+  if (!isTopicId(topicId)) return <Navigate to="/" replace />;
+  if (!isSubtopicSelection(topicId, subtopicId)) {
+    return <Navigate to={`/topic/${topicId}`} replace />;
+  }
+  const selectPath = `/topic/${topicId}/${subtopicId}`;
+  if (!isGameId(gameId)) return <Navigate to={selectPath} replace />;
+
+  const topic = getTopic(topicId);
+  const game = getGame(gameId);
+  const questions = getQuestions(topicId, subtopicId, gameId);
+  // La pantalla de selección explica por qué este juego no está disponible.
+  if (questions.length < game.minQuestions)
+    return <Navigate to={selectPath} replace />;
+
+  const requested = searchParams.get('difficulty');
+  const difficulty = isDifficulty(requested) ? requested : DEFAULT_DIFFICULTY;
+  const subtopicName =
+    subtopicId === ALL_SUBTOPICS
+      ? 'Todos los temas'
+      : (getSubtopics(topicId).find((s) => s.id === subtopicId)?.name ?? '');
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <Link
-          to={`/topic/${topicId}/${subtopicId}`}
-          className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm font-medium min-h-[44px] flex items-center"
-        >
-          ← Salir del juego
-        </Link>
-        <span className="font-pixel text-xs text-yellow-400">PUNTOS: 0</span>
-      </div>
-
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center min-h-[300px] flex flex-col items-center justify-center">
-        <h2 className="font-pixel text-lg text-yellow-400 mb-2">
-          JUEGO: {gameId?.toUpperCase()}
-        </h2>
-        <p className="text-gray-400 text-sm mb-4">
-          Tema: {topicId} | Subtema: {subtopicId} | Dificultad: {difficulty}
-        </p>
-        <div className="bg-gray-800 text-gray-300 px-4 py-2 rounded-lg text-xs font-mono">
-          El motor de juegos se integrará en la Fase 3.
-        </div>
-      </div>
-    </div>
+    <GameShell
+      key={`${topicId}/${subtopicId}/${gameId}/${difficulty}`}
+      topic={topic}
+      subtopic={subtopicId}
+      subtopicName={subtopicName}
+      game={game}
+      difficulty={difficulty}
+      questions={questions}
+    />
   );
 };

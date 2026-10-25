@@ -40,6 +40,13 @@ describe('récords locales', () => {
     expect(getBestScore(memory)).toBe(400);
   });
 
+  it('un puntaje de 0 o negativo nunca es récord', () => {
+    expect(saveIfHighScore(memory, 0)).toBe(false);
+    expect(saveIfHighScore(memory, -30)).toBe(false);
+    expect(getRecords()).toEqual([]);
+    expect(saveIfHighScore(memory, 10)).toBe(true);
+  });
+
   it('separa los récords de Carrera por dificultad', () => {
     saveIfHighScore(race('Fácil'), 340);
     saveIfHighScore(race('Difícil'), 840);
