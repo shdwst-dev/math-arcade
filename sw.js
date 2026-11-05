@@ -1,4 +1,4 @@
-const CACHE_NAME = 'math-arcade-v2';
+const CACHE_NAME = 'math-arcade-v3';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',

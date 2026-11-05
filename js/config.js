@@ -3,6 +3,6 @@
 // las políticas RLS definidas en supabase/schema.sql.
 // Si se dejan los valores de ejemplo, la app funciona solo con localStorage.
 const SUPABASE_CONFIG = {
-    url: 'https://TU-PROYECTO.supabase.co',
-    anonKey: 'TU-ANON-KEY'
+    url: 'https://vtopzwwnasxeywvykthg.supabase.co',
+    anonKey: 'sb_publishable_3dxf043vaa5bWXjQ5hELUA_vrlH56Jq'
 };
