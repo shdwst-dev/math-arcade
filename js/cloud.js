@@ -25,7 +25,12 @@ const Cloud = {
         this.client = window.supabase.createClient(cfg.url, cfg.anonKey);
 
         this.client.auth.onAuthStateChange((event, session) => {
-            this.user = session ? session.user : null;
+            const newUser = session ? session.user : null;
+            const sameUser = !!(newUser && this.user && newUser.id === this.user.id);
+            this.user = newUser;
+            // Renovar el token o reenfocar la pestaña no cambia de usuario:
+            // no hace falta recargar perfil ni récords (evita bucles de eventos)
+            if (event === 'TOKEN_REFRESHED' || (event === 'SIGNED_IN' && sameUser)) return;
             // Supabase recomienda no hacer llamadas async dentro del callback
             setTimeout(() => this.afterAuthChange(), 0);
         });
@@ -33,20 +38,33 @@ const Cloud = {
         window.addEventListener('online', () => this.flushPending());
     },
 
+    authRun: 0,
+
     async afterAuthChange() {
+        // Si la sesión cambia mientras se espera la red, solo la última ejecución cuenta
+        const runId = ++this.authRun;
+        const user = this.user;
         this.profile = null;
         this.myScores = {};
-        if (this.user) {
-            const { data } = await this.client
-                .from('profiles')
-                .select('username, total_games_played, total_wins')
-                .eq('id', this.user.id)
-                .maybeSingle();
-            this.profile = data;
-            await this.flushPending();
-            await this.loadMyScores();
+        try {
+            if (user) {
+                const { data } = await this.client
+                    .from('profiles')
+                    .select('username, total_games_played, total_wins')
+                    .eq('id', user.id)
+                    .maybeSingle();
+                if (runId !== this.authRun) return;
+                this.profile = data;
+                await this.flushPending();
+                if (runId !== this.authRun) return;
+                await this.loadMyScores();
+            }
+        } catch (err) {
+            console.error('Error al cargar la cuenta:', err);
+        } finally {
+            // Siempre refrescar la interfaz, aunque algo falle por el camino
+            if (runId === this.authRun && typeof onAuthChanged === 'function') onAuthChanged();
         }
-        if (typeof onAuthChanged === 'function') onAuthChanged();
     },
 
     // ---------- Autenticación ----------
@@ -126,9 +144,10 @@ const Cloud = {
     async flushPending() {
         if (!this.isLoggedIn || this.flushing || !navigator.onLine) return;
         this.flushing = true;
+        const userId = this.user.id;
         const remaining = [];
         for (const r of this.readPending()) {
-            if (r.userId !== this.user.id) {
+            if (r.userId !== userId) {
                 remaining.push(r);
                 continue;
             }
@@ -144,10 +163,12 @@ const Cloud = {
     },
 
     async loadMyScores() {
+        const user = this.user;
+        if (!user) return [];
         const { data, error } = await this.client
             .from('high_scores')
             .select('topic, subtopic, game, difficulty, best_score, updated_at')
-            .eq('user_id', this.user.id);
+            .eq('user_id', user.id);
         if (error) {
             console.error(error.message);
             return [];
