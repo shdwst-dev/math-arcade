@@ -81,5 +81,53 @@ const dataDiferencial = [
     { subtema: "aplicaciones_dif", q: "\\text{Un punto de inflexión ocurre cuando:}", a: "f''(x) = 0", distractors: ["f'(x) = 0", "f(x) = 0", "f'(x) = \\infty"] },
     { subtema: "aplicaciones_dif", q: "\\text{Si } f''(c) > 0\\text{, el punto crítico } c \\text{ es un:}", a: "\\text{Mínimo local}", distractors: ["\\text{Máximo local}", "\\text{Punto de inflexión}", "\\text{No se puede saber}"] },
     { subtema: "aplicaciones_dif", q: "\\text{Si el costo es } C(x)=x^2+10x\\text{, el costo marginal es:}", a: "2x+10", distractors: ["x+10", "x^2", "10x"] },
-    { subtema: "aplicaciones_dif", q: "\\text{La pendiente de la normal a } f(x)=x^2 \\text{ en } x=1 \\text{ es:}", a: "-\\frac{1}{2}", distractors: ["2", "-2", "\\frac{1}{2}"] }
+    { subtema: "aplicaciones_dif", q: "\\text{La pendiente de la normal a } f(x)=x^2 \\text{ en } x=1 \\text{ es:}", a: "-\\frac{1}{2}", distractors: ["2", "-2", "\\frac{1}{2}"] },
+
+    // ==========================================
+    // 7. EXTRA: EJERCICIOS ADICIONALES (extra_diferencial)
+    // ==========================================
+    { subtema: "funciones", q: "\\text{La gráfica de } y=|x| \\text{ es:}", a: "\\text{Simétrica respecto al eje } y", distractors: ["\\text{Simétrica respecto al eje } x", "\\text{Siempre decreciente}", "\\text{Constante}"] },
+    { subtema: "funciones", q: "\\text{La función } f(x)=x^2-4 \\text{ corta al eje } x \\text{ en:}", a: "x=2, x=-2", distractors: ["x=0", "x=4", "x=-4"] },
+    { subtema: "limites", q: "\\lim_{x \\to 0} \\frac{\\sqrt{x+1}-1}{x}", a: "\\frac{1}{2}", distractors: ["1", "0", "-\\frac{1}{2}"] },
+    { subtema: "limites", q: "\\lim_{x \\to -1} \\frac{x^2-1}{x+1}", a: "-2", distractors: ["0", "2", "1"] },
+    { subtema: "derivadas_directas", q: "\\frac{d}{dx}(3x^4)", a: "12x^3", distractors: ["4x^3", "3x^3", "12x^2"] },
+    { subtema: "derivadas_directas", q: "\\frac{d}{dx}(x^5-2x^3)", a: "5x^4-6x^2", distractors: ["5x^4-2x^2", "5x^3-6x", "x^5-6x^2"] },
+    { subtema: "metodos_derivadas", q: "\\frac{d}{dx}(\\sin x \\cos x)", a: "\\cos^2 x - \\sin^2 x", distractors: ["\\sin^2 x - \\cos^2 x", "\\cos x - \\sin x", "0"] },
+    { subtema: "metodos_derivadas", q: "\\frac{d}{dx}(\\ln(3x+1))", a: "\\frac{3}{3x+1}", distractors: ["\\frac{1}{3x+1}", "\\frac{3x}{3x+1}", "\\frac{3}{x+1}"] },
+    { subtema: "limites_infinito", q: "\\lim_{x \\to \\infty} \\frac{x^2+3x}{x^2-1}", a: "1", distractors: ["3", "0", "\\infty"] },
+    { subtema: "aplicaciones_dif", q: "\\text{La velocidad es la derivada de:}", a: "\\text{La posición respecto al tiempo}", distractors: ["\\text{La aceleración}", "\\text{La pendiente}", "\\text{La función inversa}"] },
+    { subtema: "aplicaciones_dif", q: "\\text{Si } f'(x)>0 \\text{ en un intervalo, entonces } f \\text{ es:}", a: "\\text{Creciente}", distractors: ["\\text{Decreciente}", "\\text{Constante}", "\\text{Inflexión}"] },
+    { subtema: "aplicaciones_dif", q: "\\text{La ecuación de la tangente a } y=x^2 \\text{ en } x=3 \\text{ es:}", a: "y=6x-9", distractors: ["y=3x-9", "y=6x+9", "y=9x-6"] },
+
+    // ==========================================
+    // 8. BANCO EXTRA AVANZADO (mega_diferencial)
+    // ==========================================
+    { subtema: "funciones", q: "\\text{El dominio de } f(x)=\\frac{x}{x^2-9} \\text{ es:}", a: "(-\\infty,-3) \\cup (-3,3) \\cup (3,\\infty)", distractors: ["(-\\infty,3)", "(-3,3)", "[-3,3]"] },
+    { subtema: "funciones", q: "\\text{La función } f(x)=x^4-2x^2 \\text{ es:}", a: "\\text{Par}", distractors: ["\\text{Impar}", "\\text{Ni par ni impar}", "\\text{Constante}"] },
+    { subtema: "funciones", q: "\\text{La función } f(x)=x^3+x \\text{ es:}", a: "\\text{Impar}", distractors: ["\\text{Par}", "\\text{Periódica}", "\\text{No es función}"] },
+    { subtema: "funciones", q: "\\text{El valor de } f(0) \\text{ para } f(x)=3x^2-5x+2 \\text{ es:}", a: "2", distractors: ["0", "-2", "5"] },
+    { subtema: "funciones", q: "\\text{La composición } g(f(x)) \\text{ para } f(x)=x+2, g(x)=x^2 \\text{ es:}", a: "(x+2)^2", distractors: ["x^2+2", "x^2+x+2", "2x^2"] },
+    { subtema: "limites", q: "\\lim_{x \\to 2} \\frac{x^2-5x+6}{x-2}", a: "-1", distractors: ["1", "0", "\\infty"] },
+    { subtema: "limites", q: "\\lim_{x \\to 0} \\frac{\\sin(3x)}{x}", a: "3", distractors: ["1", "0", "-3"] },
+    { subtema: "limites", q: "\\lim_{x \\to 0} \\frac{1-\\cos(2x)}{x^2}", a: "2", distractors: ["0", "4", "1"] },
+    { subtema: "limites", q: "\\lim_{x \\to 0} \\frac{\\sqrt{1+x}-1}{x}", a: "\\frac{1}{2}", distractors: ["1", "0", "-\\frac{1}{2}"] },
+    { subtema: "limites", q: "\\lim_{x \\to 1} \\frac{x^4-1}{x-1}", a: "4", distractors: ["1", "0", "2"] },
+    { subtema: "derivadas_directas", q: "\\frac{d}{dx}(x^6)", a: "6x^5", distractors: ["x^5", "6x^6", "5x^6"] },
+    { subtema: "derivadas_directas", q: "\\frac{d}{dx}(5x^4 - 3x^2 + 7)", a: "20x^3 - 6x", distractors: ["20x^4 - 6x^2", "20x^3 - 3x", "5x^3 - 6x"] },
+    { subtema: "derivadas_directas", q: "\\frac{d}{dx}(\\sqrt[3]{x})", a: "\\frac{1}{3x^{2/3}}", distractors: ["\\frac{1}{3\\sqrt{x}}", "x^{-1/3}", "\\frac{2}{3}x^{1/3}"] },
+    { subtema: "derivadas_directas", q: "\\frac{d}{dx}(\\ln(2x+1))", a: "\\frac{2}{2x+1}", distractors: ["\\frac{1}{2x+1}", "\\frac{2x}{2x+1}", "\\frac{2}{x+1}"] },
+    { subtema: "metodos_derivadas", q: "\\frac{d}{dx}(x^2 \\cos x)", a: "2x\\cos x - x^2\\sin x", distractors: ["2x\\cos x + x^2\\sin x", "2x\\sin x - x^2\\cos x", "x^2\\sin x"] },
+    { subtema: "metodos_derivadas", q: "\\frac{d}{dx}(x^3+1)^4", a: "12x^2(x^3+1)^3", distractors: ["4(x^3+1)^3", "12x^2(x^3+1)^2", "4x^2(x^3+1)^3"] },
+    { subtema: "metodos_derivadas", q: "\\frac{d}{dx} \\left(\\frac{x+1}{x-1}\\right)", a: "-\\frac{2}{(x-1)^2}", distractors: ["\\frac{2}{(x-1)^2}", "\\frac{1}{x-1}", "-\\frac{1}{(x-1)^2}"] },
+    { subtema: "metodos_derivadas", q: "\\frac{d}{dx}(e^{x^2})", a: "2x e^{x^2}", distractors: ["e^{x^2}", "2e^{x^2}", "x e^{x^2}"] },
+    { subtema: "metodos_derivadas", q: "\\frac{d}{dx}(\\tan(3x))", a: "3\\sec^2(3x)", distractors: ["\\sec^2(3x)", "3\\tan(3x)", "3\\sin(3x)"] },
+    { subtema: "limites_infinito", q: "\\lim_{x \\to \\infty} \\frac{7x^3+2x}{x^3-5}", a: "7", distractors: ["2", "0", "\\infty"] },
+    { subtema: "limites_infinito", q: "\\lim_{x \\to -\\infty} \\frac{3x+1}{2x-4}", a: "\\frac{3}{2}", distractors: ["-\\frac{3}{2}", "0", "\\infty"] },
+    { subtema: "limites_infinito", q: "\\lim_{x \\to \\infty} \\frac{\\ln x}{x}", a: "0", distractors: ["1", "\\infty", "e"] },
+    { subtema: "limites_infinito", q: "\\lim_{x \\to \\infty} \\frac{x^5}{e^x}", a: "0", distractors: ["1", "\\infty", "5"] },
+    { subtema: "aplicaciones_dif", q: "\\text{La recta tangente a } y=x^2+1 \\text{ en } x=2 \\text{ es:}", a: "y=4x-3", distractors: ["y=2x+1", "y=4x+3", "y=2x-1"] },
+    { subtema: "aplicaciones_dif", q: "\\text{Si } f'(x)<0 \\text{ en un intervalo, entonces } f \\text{ es:}", a: "\\text{Decreciente}", distractors: ["\\text{Creciente}", "\\text{Constante}", "\\text{Inflexión}"] },
+    { subtema: "aplicaciones_dif", q: "\\text{La aceleración es la derivada de:}", a: "\\text{La velocidad}", distractors: ["\\text{La posición}", "\\text{La función inversa}", "\\text{La pendiente}"] },
+    { subtema: "aplicaciones_dif", q: "\\text{El valor máximo de } f(x)= -x^2+4x+1 \\text{ ocurre en:}", a: "x=2", distractors: ["x=1", "x=4", "x=-2"] },
+    { subtema: "aplicaciones_dif", q: "\\text{El radio de curvatura mide la:}", a: "\\text{Inverso de la curvatura}", distractors: ["\\text{Pendiente}", "\\text{Integral}", "\\text{Fracción de la recta}"] }
 ];

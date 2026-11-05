@@ -220,5 +220,83 @@ const dataFundamentos = [
     { subtema: "aplicaciones_fund", q: "\\text{Ley de Senos: } \\frac{a}{\\sin A}", a: "= \\frac{b}{\\sin B} = \\frac{c}{\\sin C}", distractors: ["= \\frac{b}{\\cos B}", "= a + b + c", "= \\pi"] },
     
     // Ley de cosenos
-    { subtema: "aplicaciones_fund", q: "\\text{Ley de Cosenos: } a^2", a: "= b^2 + c^2 - 2bc\\cos(A)", distractors: ["= b^2 + c^2", "= (b+c)^2", "= b^2 + c^2 + 2bc\\cos(A)"] }
+    { subtema: "aplicaciones_fund", q: "\\text{Ley de Cosenos: } a^2", a: "= b^2 + c^2 - 2bc\\cos(A)", distractors: ["= b^2 + c^2", "= (b+c)^2", "= b^2 + c^2 + 2bc\\cos(A)"] },
+
+    // ==========================================
+    // 5. EJERCICIOS EXTRA DE ÁLGEBRA (extra_algebra)
+    // ==========================================
+    { subtema: "ecuaciones_1", q: "3x + 7 = 22", a: "x = 5", distractors: ["x = 3", "x = 7", "x = 4"] },
+    { subtema: "ecuaciones_1", q: "4x - 9 = 15", a: "x = 6", distractors: ["x = 5", "x = 4", "x = 8"] },
+    { subtema: "ecuaciones_1", q: "7x + 2 = 30", a: "x = 4", distractors: ["x = 3", "x = 6", "x = 5"] },
+    { subtema: "ecuaciones_1", q: "\frac{x}{3} = 9", a: "x = 27", distractors: ["x = 18", "x = 12", "x = 9"] },
+    { subtema: "ecuaciones_1", q: "2(x + 3) = 14", a: "x = 4", distractors: ["x = 5", "x = 3", "x = 2"] },
+    { subtema: "ecuaciones_1", q: "5x - 8 = 2x + 13", a: "x = 7", distractors: ["x = 5", "x = 6", "x = 8"] },
+    { subtema: "ecuaciones_1", q: "9 - 2x = 1", a: "x = 4", distractors: ["x = 3", "x = 2", "x = 5"] },
+    { subtema: "ecuaciones_1", q: "x + 12 = 3x - 4", a: "x = 8", distractors: ["x = 6", "x = 7", "x = 10"] },
+    { subtema: "ecuaciones_1", q: "3(x - 4) = 18", a: "x = 10", distractors: ["x = 8", "x = 9", "x = 11"] },
+    { subtema: "ecuaciones_1", q: "\frac{2x}{5} = 6", a: "x = 15", distractors: ["x = 10", "x = 12", "x = 20"] },
+
+    { subtema: "productos_notables", q: "(x+4)^2", a: "x^2 + 8x + 16", distractors: ["x^2 + 4x + 8", "x^2 + 16", "x^2 + 6x + 16"] },
+    { subtema: "productos_notables", q: "(x-7)^2", a: "x^2 - 14x + 49", distractors: ["x^2 - 49", "x^2 + 14x + 49", "x^2 - 7x + 49"] },
+    { subtema: "productos_notables", q: "(x+1)(x+9)", a: "x^2 + 10x + 9", distractors: ["x^2 + 9x + 9", "x^2 + 10x + 1", "x^2 + 11x + 9"] },
+    { subtema: "productos_notables", q: "(x-3)(x+3)", a: "x^2 - 9", distractors: ["x^2 + 9", "x^2 - 6x + 9", "x^2 - 3x + 9"] },
+    { subtema: "productos_notables", q: "(2x+3)^2", a: "4x^2 + 12x + 9", distractors: ["4x^2 + 9", "4x^2 + 6x + 9", "2x^2 + 12x + 9"] },
+    { subtema: "productos_notables", q: "(3x-2)^2", a: "9x^2 - 12x + 4", distractors: ["9x^2 - 4", "9x^2 + 12x + 4", "6x^2 - 12x + 4"] },
+    { subtema: "productos_notables", q: "(x+2)(x-2)", a: "x^2 - 4", distractors: ["x^2 + 4", "x^2 - 4x + 4", "x^2 + 2x - 4"] },
+    { subtema: "productos_notables", q: "(a+5)^2", a: "a^2 + 10a + 25", distractors: ["a^2 + 5a + 25", "a^2 + 25", "a^2 + 10a + 5"] },
+    { subtema: "productos_notables", q: "(m-4)^2", a: "m^2 - 8m + 16", distractors: ["m^2 - 16", "m^2 + 8m + 16", "m^2 - 4m + 16"] },
+    { subtema: "productos_notables", q: "(x+6)(x-6)", a: "x^2 - 36", distractors: ["x^2 - 12x + 36", "x^2 + 36", "x^2 - 6x + 36"] },
+
+    { subtema: "factorizacion", q: "x^2 + 8x + 15", a: "(x + 3)(x + 5)", distractors: ["(x + 1)(x + 15)", "(x + 2)(x + 7)", "(x + 3)(x + 4)"] },
+    { subtema: "factorizacion", q: "x^2 - 9x + 20", a: "(x - 4)(x - 5)", distractors: ["(x - 2)(x - 10)", "(x - 3)(x - 7)", "(x - 4)(x + 5)"] },
+    { subtema: "factorizacion", q: "x^2 + x - 12", a: "(x + 4)(x - 3)", distractors: ["(x + 2)(x - 6)", "(x + 3)(x - 4)", "(x + 6)(x - 2)"] },
+    { subtema: "factorizacion", q: "x^2 - 5x - 14", a: "(x - 7)(x + 2)", distractors: ["(x - 2)(x + 7)", "(x - 14)(x + 1)", "(x - 5)(x + 2)"] },
+    { subtema: "factorizacion", q: "x^2 - 16", a: "(x + 4)(x - 4)", distractors: ["(x - 8)^2", "(x + 4)^2", "(x - 4)^2"] },
+    { subtema: "factorizacion", q: "x^2 + 10x + 25", a: "(x + 5)^2", distractors: ["(x + 10)^2", "(x + 5)(x - 5)", "(x + 2)(x + 12)"] },
+    { subtema: "factorizacion", q: "4x^2 - 9", a: "(2x + 3)(2x - 3)", distractors: ["(2x - 3)^2", "(4x + 3)(x - 3)", "(2x + 9)(2x - 1)"] },
+    { subtema: "factorizacion", q: "3x^2 + 6x", a: "3x(x + 2)", distractors: ["x(3x + 6)", "3(x^2 + 2x)", "3x(x + 6)"] },
+    { subtema: "factorizacion", q: "6x^2 - 9x", a: "3x(2x - 3)", distractors: ["3x(2x + 3)", "x(6x - 9)", "9x(x - 1)"] },
+    { subtema: "factorizacion", q: "x^2 - 12x + 36", a: "(x - 6)^2", distractors: ["(x - 12)^2", "(x + 6)^2", "(x - 6)(x + 6)"] },
+
+    { subtema: "aplicaciones_fund", q: "\\text{El área de un rectángulo de base } 5 \text{ y altura } x \text{ es:}", a: "5x", distractors: ["5 + x", "x^2", "10x"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Si } p = 2x + 3 \text{ y } x = 4, \\text{ entonces } p =", a: "11", distractors: ["8", "10", "12"] },
+    { subtema: "aplicaciones_fund", q: "\\text{El perímetro de un cuadrado de lado } x \text{ es:}", a: "4x", distractors: ["x^2", "2x", "x + 4"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Si } y = 3x - 5 \text{ y } x = 2, \\text{ entonces } y =", a: "1", distractors: ["5", "6", "-1"] },
+    { subtema: "aplicaciones_fund", q: "\\text{El volumen de un cubo de lado } x \text{ es:}", a: "x^3", distractors: ["3x", "x^2", "6x"] },
+    { subtema: "aplicaciones_fund", q: "\\text{La suma de dos números consecutivos es } 17. \\text{ ¿Cuál es el menor?}", a: "8", distractors: ["7", "9", "10"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Si el doble de un número menos 4 es 10, ¿cuál es el número?}", a: "7", distractors: ["5", "6", "8"] },
+    { subtema: "aplicaciones_fund", q: "\\text{El valor de } x \text{ en } 2x + 1 = 9 \text{ es:}", a: "4", distractors: ["3", "5", "2"] },
+    { subtema: "aplicaciones_fund", q: "\\text{La expresión } x^2 + 5x + 6 \\text{ se factoriza como:}", a: "(x + 2)(x + 3)", distractors: ["(x + 1)(x + 6)", "(x + 3)^2", "(x + 2)^2"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Un número más su doble es 18. ¿Cuál es el número?}", a: "6", distractors: ["4", "5", "7"] },
+
+    // ==========================================
+    // 9. BANCO EXTRA AVANZADO (mega_fundamentos)
+    // ==========================================
+    { subtema: "ecuaciones_2", q: "x^2 - 7x + 12 = 0", a: "x = 3, x = 4", distractors: ["x = 2, x = 6", "x = -3, x = -4", "x = 1, x = 12"] },
+    { subtema: "ecuaciones_2", q: "x^2 + 9x + 20 = 0", a: "x = -4, x = -5", distractors: ["x = 4, x = 5", "x = -2, x = -10", "x = 1, x = 20"] },
+    { subtema: "ecuaciones_2", q: "2x^2 + 5x - 3 = 0", a: "x = \frac{1}{2}, x = -3", distractors: ["x = 3, x = -\frac{1}{2}", "x = 1, x = -3", "x = -1, x = 3"] },
+    { subtema: "ecuaciones_2", q: "x^2 - 13x + 36 = 0", a: "x = 4, x = 9", distractors: ["x = 3, x = 12", "x = -4, x = -9", "x = 2, x = 18"] },
+    { subtema: "ecuaciones_2", q: "(x - 2)(x + 5) = 0", a: "x = 2, x = -5", distractors: ["x = -2, x = 5", "x = 2, x = 5", "x = -2, x = -5"] },
+    { subtema: "ecuaciones_2", q: "x^2 = 81", a: "x = \pm 9", distractors: ["x = 9", "x = 81", "x = \pm 81"] },
+    { subtema: "ecuaciones_3", q: "x^3 - 9x = 0", a: "x = -3, x = 0, x = 3", distractors: ["x = -9, x = 0, x = 9", "x = -3, x = 3", "x = 1, x = 9"] },
+    { subtema: "ecuaciones_3", q: "x^3 - 3x^2 - 4x + 12 = 0", a: "x = -2, x = 2, x = 3", distractors: ["x = -1, x = 1, x = 12", "x = -2, x = 2, x = 6", "x = 0, x = 2, x = 3"] },
+    { subtema: "ecuaciones_3", q: "8x^3 = 216", a: "x = 3", distractors: ["x = 6", "x = \pm 3", "x = 9"] },
+    { subtema: "ecuaciones_3", q: "(x + 1)^3 = 27", a: "x = 2", distractors: ["x = 3", "x = -2", "x = 1"] },
+    { subtema: "ecuaciones_3", q: "x^3 + 6x^2 + 9x = 0", a: "x = 0, x = -3", distractors: ["x = 0, x = 3", "x = -3, x = -9", "x = 0, x = 9"] },
+    { subtema: "desigualdades", q: "x - 4 < 7", a: "x < 11", distractors: ["x < 3", "x > 11", "x \leq 11"] },
+    { subtema: "desigualdades", q: "3x + 1 \geq 13", a: "x \geq 4", distractors: ["x \leq 4", "x > 4", "x \geq 3"] },
+    { subtema: "desigualdades", q: "-3x + 2 \leq 11", a: "x \geq -3", distractors: ["x \leq -3", "x > -3", "x \geq 3"] },
+    { subtema: "desigualdades", q: "\frac{x}{2} - 1 < 3", a: "x < 8", distractors: ["x < 4", "x > 8", "x \leq 8"] },
+    { subtema: "desigualdades", q: "2(x+3) > 10", a: "x > 2", distractors: ["x < 2", "x > 5", "x \geq 2"] },
+    { subtema: "desigualdades", q: "5 - 2x > 1", a: "x < 2", distractors: ["x > 2", "x < -2", "x \leq 2"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Si } 3x - 4 = 11, \\text{ entonces } x =", a: "5", distractors: ["3", "4", "6"] },
+    { subtema: "aplicaciones_fund", q: "\\text{El doble de un número más } 7 \\text{ es } 21. \\text{ ¿Cuál es el número?}", a: "7", distractors: ["5", "6", "8"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Un rectángulo tiene perímetro } 30 \\text{ y ancho } 5. \\text{ ¿Cuánto mide su largo?}", a: "10", distractors: ["8", "9", "12"] },
+    { subtema: "aplicaciones_fund", q: "\\text{La suma de dos números es } 18 \\text{ y su diferencia es } 4. \\text{ ¿Cuál es el mayor?}", a: "11", distractors: ["9", "10", "12"] },
+    { subtema: "aplicaciones_fund", q: "\\text{El área de un triángulo de base } 8 \\text{ y altura } 6 \\text{ es:}", a: "24", distractors: ["14", "16", "48"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Si } y = 2x^2 - 3x + 1 \\text{ y } x = 2, \\text{ entonces } y =", a: "3", distractors: ["1", "5", "7"] },
+    { subtema: "aplicaciones_fund", q: "\\text{La solución de } 4x + 5 = 2x + 17 \\text{ es:}", a: "x = 6", distractors: ["x = 5", "x = 4", "x = 7"] },
+    { subtema: "aplicaciones_fund", q: "\\text{El valor de } x \\text{ en } 3(x - 2) = 15 \\text{ es:}", a: "7", distractors: ["5", "6", "8"] },
+    { subtema: "aplicaciones_fund", q: "\\text{Si } a = 5, b = 3, \\text{ entonces } a^2 - b^2 =", a: "16", distractors: ["8", "15", "20"] },
+    { subtema: "aplicaciones_fund", q: "\\text{El número que cumple } x^2 = 49 \\text{ es:}", a: "\pm 7", distractors: ["7", "-7", "49"] }
 ];

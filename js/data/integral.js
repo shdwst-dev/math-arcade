@@ -123,5 +123,46 @@ const dataIntegral = [
     { subtema: "aplicaciones_int", q: "\\text{Área de un círculo de radio } r \\text{ (por integración):}", a: "\\pi r^2", distractors: ["2\\pi r", "\\frac{4}{3}\\pi r^3", "\\frac{1}{2}\\pi r^2"] },
     { subtema: "aplicaciones_int", q: "\\text{Volumen de una esfera de radio } r:", a: "\\frac{4}{3}\\pi r^3", distractors: ["\\pi r^2 h", "\\frac{1}{3}\\pi r^2 h", "4\\pi r^2"] },
     { subtema: "aplicaciones_int", q: "\\text{Longitud de arco de } f(x):", a: "\\int_a^b \\sqrt{1+(f'(x))^2} dx", distractors: ["\\int_a^b (1+(f'(x))^2) dx", "\\int_a^b \\sqrt{1-(f'(x))^2} dx", "\\int_a^b f'(x) dx"] },
-    { subtema: "aplicaciones_int", q: "\\text{Área entre } f(x) \\text{ y } g(x) \\text{ con } f \\geq g:", a: "\\int_a^b (f(x)-g(x)) dx", distractors: ["\\int_a^b (f(x)+g(x)) dx", "\\int_a^b f(x)g(x) dx", "\\int_a^b |f(x)+g(x)| dx"] }
+    { subtema: "aplicaciones_int", q: "\\text{Área entre } f(x) \\text{ y } g(x) \\text{ con } f \\geq g:", a: "\\int_a^b (f(x)-g(x)) dx", distractors: ["\\int_a^b (f(x)+g(x)) dx", "\\int_a^b f(x)g(x) dx", "\\int_a^b |f(x)+g(x)| dx"] },
+
+    // ==========================================
+    // 10. EXTRA: EJERCICIOS ADICIONALES (extra_integral)
+    // ==========================================
+    { subtema: "sumas_riemann", q: "\\text{La suma inferior usa:}", a: "\\text{Valores mínimos de } f \\text{ en cada subintervalo}", distractors: ["\\text{Valores máximos de } f", "\\text{Solo el extremo derecho}", "\\text{Solo la derivada}"] },
+    { subtema: "integrales_directas", q: "\\int (4x^3-2x+5) dx", a: "x^4-x^2+5x+C", distractors: ["4x^4-2x^2+5x+C", "x^4-2x^2+5+C", "x^4-x^2+C"] },
+    { subtema: "integrales_directas", q: "\\int \frac{1}{x^2} dx", a: "-\\frac{1}{x}+C", distractors: ["\\ln x + C", "\\frac{1}{x}+C", "-x + C"] },
+    { subtema: "integrales_metodos", q: "\\int \frac{x}{x^2+1} dx", a: "\\frac{1}{2}\\ln(x^2+1)+C", distractors: ["\\ln(x^2+1)+C", "\\frac{x^2}{2}+C", "\\frac{x^2+1}{2}+C"] },
+    { subtema: "integrales_metodos", q: "\\int \cos^2 x dx", a: "\\frac{x}{2}+\\frac{\\sin 2x}{4}+C", distractors: ["\\sin^2 x + C", "\\frac{\\sin 2x}{2}+C", "\\frac{x}{2}+C"] },
+    { subtema: "integrales_evaluadas", q: "\\int_0^3 (x^2+1) dx", a: "12", distractors: ["9", "10", "15"] },
+    { subtema: "integrales_evaluadas", q: "\\int_1^4 \\frac{1}{x} dx", a: "\\ln 4", distractors: ["\\ln 3", "1", "4"] },
+    { subtema: "integrales_trig", q: "\\int \\sin^2 x dx", a: "\\frac{x}{2}-\\frac{\\sin 2x}{4}+C", distractors: ["\\frac{x}{2}+\\frac{\\sin 2x}{4}+C", "-\\frac{\\cos 2x}{2}+C", "\\sin x + C"] },
+    { subtema: "cambio_variable", q: "\\int 3x^2(x^3+1)^4 dx", a: "\\frac{(x^3+1)^5}{5}+C", distractors: ["(x^3+1)^5+C", "\\frac{(x^3+1)^4}{4}+C", "\\frac{x^3+1}{5}+C"] },
+    { subtema: "por_partes", q: "\\int x^2 \\ln x dx", a: "\\frac{x^3}{3}\\ln x - \\frac{x^3}{9}+C", distractors: ["\\frac{x^2}{2}\\ln x + C", "x^2\\ln x - x^2 + C", "\\frac{x^3}{9}\\ln x + C"] },
+    { subtema: "fracciones_parciales", q: "\\int \\frac{5}{x^2-1} dx", a: "\\frac{5}{2}\\ln\\left|\\frac{x-1}{x+1}\\right| + C", distractors: ["\\ln|x^2-1|+C", "\\frac{5}{x^2-1}+C", "\\frac{5}{2}\\ln|x^2-1|+C"] },
+    { subtema: "aplicaciones_int", q: "\\text{La integral de una función positiva da:}", a: "\\text{Área bajo la curva}", distractors: ["\\text{Pendiente}", "\\text{Máximo valor}", "\\text{Tiempo total}"] },
+
+    // ==========================================
+    // 11. BANCO EXTRA AVANZADO (mega_integral)
+    // ==========================================
+    { subtema: "integrales_directas", q: "\\int (3x^2 + 4x + 1) dx", a: "x^3 + 2x^2 + x + C", distractors: ["3x^3 + 4x^2 + x + C", "x^3 + 2x^2 + C", "x^3 + 4x + C"] },
+    { subtema: "integrales_directas", q: "\\int (x^4 - 2x^2 + 5) dx", a: "\\frac{x^5}{5} - \\frac{2x^3}{3} + 5x + C", distractors: ["\\frac{x^5}{5} - 2x^3 + 5x + C", "x^5 - x^3 + 5x + C", "\\frac{x^5}{4} - \\frac{2x^3}{3} + 5 + C"] },
+    { subtema: "integrales_directas", q: "\\int \\frac{1}{x^3} dx", a: "-\\frac{1}{2x^2} + C", distractors: ["-\\frac{1}{x^2} + C", "\\frac{1}{2x^2} + C", "-\\frac{1}{3x^3} + C"] },
+    { subtema: "integrales_directas", q: "\\int \\sqrt{x^3} dx", a: "\\frac{2}{5}x^{5/2} + C", distractors: ["\\frac{3}{2}x^{1/2} + C", "x^{5/2} + C", "\\frac{2}{3}x^{3/2} + C"] },
+    { subtema: "integrales_metodos", q: "\\int \\sin(3x) dx", a: "-\\frac{1}{3}\\cos(3x) + C", distractors: ["-\\cos(3x) + C", "\\frac{1}{3}\\sin(3x) + C", "-3\\cos(3x) + C"] },
+    { subtema: "integrales_metodos", q: "\\int \\frac{1}{x^2+4} dx", a: "\\frac{1}{2}\\arctan\\left(\\frac{x}{2}\\right) + C", distractors: ["\\arctan(x^2+4) + C", "\\frac{1}{2}\\ln(x^2+4) + C", "\\frac{1}{4}\\arctan(x) + C"] },
+    { subtema: "integrales_metodos", q: "\\int x e^{x^2} dx", a: "\\frac{1}{2}e^{x^2}+C", distractors: ["e^{x^2}+C", "x e^{x^2}+C", "\\frac{1}{2}x e^{x^2}+C"] },
+    { subtema: "integrales_metodos", q: "\\int \\frac{2x}{x^2+1} dx", a: "\\ln(x^2+1)+C", distractors: ["\\frac{1}{x^2+1}+C", "2\\ln(x^2+1)+C", "\\ln|x|+C"] },
+    { subtema: "integrales_metodos", q: "\\int \\frac{1}{\\sqrt{1-x^2}} dx", a: "\\arcsin x + C", distractors: ["\\arccos x + C", "\\ln|1-x^2| + C", "\\arctan x + C"] },
+    { subtema: "integrales_evaluadas", q: "\\int_0^2 (2x+1) dx", a: "6", distractors: ["5", "4", "8"] },
+    { subtema: "integrales_evaluadas", q: "\\int_0^1 (x^3+2x) dx", a: "\\frac{5}{4}", distractors: ["\\frac{3}{4}", "1", "\\frac{7}{4}"] },
+    { subtema: "integrales_evaluadas", q: "\\int_0^{\\pi/2} \\sin x dx", a: "1", distractors: ["0", "\\pi/2", "-1"] },
+    { subtema: "integrales_trig", q: "\\int \\cot x dx", a: "\\ln|\\sin x| + C", distractors: ["\\ln|\\cos x| + C", "-\\ln|\\sin x| + C", "\\tan x + C"] },
+    { subtema: "integrales_trig", q: "\\int \\csc x \\cot x dx", a: "-\\csc x + C", distractors: ["\\csc x + C", "-\\cot x + C", "\\sec x + C"] },
+    { subtema: "cambio_variable", q: "\\int (3x-2)^7 dx", a: "\\frac{(3x-2)^8}{24} + C", distractors: ["\\frac{(3x-2)^8}{8}+C", "\\frac{(3x-2)^7}{7}+C", "\\frac{(3x-2)^6}{6}+C"] },
+    { subtema: "cambio_variable", q: "\\int x \\sqrt{1+x^2} dx", a: "\\frac{1}{3}(1+x^2)^{3/2}+C", distractors: ["\\frac{1}{2}(1+x^2)^{3/2}+C", "(1+x^2)^{3/2}+C", "\\sqrt{1+x^2}+C"] },
+    { subtema: "por_partes", q: "\\int x^2 e^x dx", a: "e^x(x^2-2x+2)+C", distractors: ["e^x(x^2+2x+2)+C", "x^2 e^x + C", "e^x(x-1)+C"] },
+    { subtema: "por_partes", q: "\\int e^x \\cos x dx", a: "\\frac{e^x}{2}(\\sin x + \\cos x) + C", distractors: ["\\frac{e^x}{2}(\\sin x - \\cos x) + C", "e^x \\sin x + C", "e^x \\cos x + C"] },
+    { subtema: "fracciones_parciales", q: "\\int \\frac{1}{x^2+3x+2} dx", a: "\\ln|x+1| - \\ln|x+2| + C", distractors: ["\\ln|x+2| - \\ln|x+1| + C", "\\frac{1}{x^2+3x+2}+C", "\\ln(x^2+3x+2)+C"] },
+    { subtema: "aplicaciones_int", q: "\\text{La integral definida de una velocidad respecto al tiempo da:}", a: "\\text{Desplazamiento}", distractors: ["\\text{Aceleración}", "\\text{Pendiente}", "\\text{Tiempo}"] },
+    { subtema: "aplicaciones_int", q: "\\text{El volumen al rotar } y=f(x) \\text{ alrededor del eje } x \\text{ es:}", a: "\\pi \\int_a^b [f(x)]^2 dx", distractors: ["\\pi \\int_a^b f(x) dx", "\\int_a^b [f(x)]^2 dx", "2\\pi \\int_a^b f(x) dx"] }
 ];

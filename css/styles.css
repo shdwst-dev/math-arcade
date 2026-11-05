@@ -77,6 +77,29 @@
             animation: pulse-red 1s infinite;
         }
 
+        #bomb-alert {
+            min-height: 2.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .bomb-toast-success {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(52, 211, 153, 0.8);
+            color: #bbf7d0;
+        }
+
+        .bomb-toast-error {
+            background: rgba(251, 146, 60, 0.12);
+            border-color: rgba(251, 146, 60, 0.8);
+            color: #fed7aa;
+        }
+
+        .bomb-timer-warning {
+            color: #fbbf24;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+        }
+
         /* Estilos para las cartas del memorama */
         .card {
             perspective: 1000px;
@@ -185,4 +208,73 @@
         .auth-tab-active {
             color: #67e8f9;
             border-bottom-color: #06b6d4;
+        }
+
+        body {
+            font-size: 16px;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-size: 0.95rem;
+        }
+
+        /* Solo dentro de los videojuegos se agranda un poco */
+        #game-memory,
+        #game-bomb,
+        #game-race {
+            font-size: 1.04rem;
+        }
+
+        #game-memory .text-lg,
+        #game-bomb .text-lg,
+        #game-race .text-lg,
+        #game-memory .text-xl,
+        #game-bomb .text-xl,
+        #game-race .text-xl,
+        #game-memory .text-2xl,
+        #game-bomb .text-2xl,
+        #game-race .text-2xl,
+        #game-memory .text-3xl,
+        #game-bomb .text-3xl,
+        #game-race .text-3xl,
+        #game-memory .text-4xl,
+        #game-bomb .text-4xl,
+        #game-race .text-4xl {
+            font-size: 1.08em !important;
+        }
+
+        #bomb-question,
+        #race-question,
+        .card-back,
+        .wire-btn,
+        .falling-item span {
+            font-size: 1.1rem !important;
+        }
+
+        .card-front {
+            font-size: 2.1rem;
+        }
+
+        .card-back {
+            font-size: 0.9rem;
+        }
+
+        .wire-btn {
+            min-height: 3.2rem;
+        }
+
+        #player-car {
+            font-size: 2.8rem !important;
+            transform: scale(1.1);
+        }
+
+        #race-question {
+            font-size: 1.3rem !important;
+        }
+
+        .falling-item span {
+            font-size: 1rem !important;
         }

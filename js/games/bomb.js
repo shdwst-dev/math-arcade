@@ -1,15 +1,30 @@
 function initBomb() {
     containers.bomb.classList.remove('hidden');
-    let timeLeft = 30; // 30 segundos
+    let timeLeft = 45; // 45 segundos para más margen de respuesta
     let questionsNeeded = 5;
     let currentQIndex = 0;
     const timerEl = document.getElementById('bomb-timer');
     const qEl = document.getElementById('bomb-question');
     const wiresContainer = document.getElementById('bomb-wires');
+    const bombAlert = document.getElementById('bomb-alert');
+
+    function showBombAlert(type, message) {
+        if (!bombAlert) return;
+        bombAlert.classList.remove('hidden', 'bomb-toast-success', 'bomb-toast-error');
+        bombAlert.classList.add(type === 'success' ? 'bomb-toast-success' : 'bomb-toast-error');
+        bombAlert.textContent = message;
+        bombAlert.style.opacity = '1';
+        clearTimeout(showBombAlert.timeoutId);
+        showBombAlert.timeoutId = setTimeout(() => {
+            bombAlert.style.opacity = '0';
+            setTimeout(() => bombAlert.classList.add('hidden'), 180);
+        }, 1400);
+    }
 
     function renderTimer() {
         timerEl.innerText = `00:${String(Math.max(timeLeft, 0)).padStart(2, '0')}`;
         timerEl.classList.toggle('text-red-600', timeLeft <= 10);
+        timerEl.classList.toggle('bomb-timer-warning', timeLeft <= 10 && timeLeft > 0);
     }
 
     // Obtener preguntas
@@ -47,28 +62,29 @@ function initBomb() {
                 if (opt.correct) {
                     updateScore(50);
                     timeLeft += 5; // Bonus de tiempo
-                    renderTimer();
                     questionsNeeded--;
                     currentQIndex++;
-                    // Animación visual de éxito
-                    timerEl.classList.remove('bomb-active');
-                    void timerEl.offsetWidth; // reset anim
+                    showBombAlert('success', '✅ ¡Muy bien!');
+                    timerEl.classList.remove('bomb-active', 'bomb-timer-warning');
+                    renderTimer();
+                    void timerEl.offsetWidth;
                     loadBombQuestion();
                 } else {
                     // Deshabilitar todos los botones para evitar doble clic
                     const allBtns = wiresContainer.querySelectorAll('.wire-btn');
                     allBtns.forEach(b => b.disabled = true);
                     
-                    // Resaltar la respuesta correcta
+                    // Resaltar la respuesta correcta, pero de forma más amable
                     const correctBtn = Array.from(allBtns).find(b => b.dataset.correct === "true");
                     if (correctBtn) {
                         correctBtn.classList.remove('bg-red-500', 'bg-blue-500', 'bg-yellow-500');
-                        correctBtn.classList.add('bg-green-500', 'border-4', 'border-white', 'scale-110');
+                        correctBtn.classList.add('bg-emerald-500', 'border-4', 'border-white', 'scale-110');
                     }
 
-                    timeLeft -= 5; // Penalización
-                    timerEl.classList.add('bomb-active');
+                    timeLeft -= 5;
+                    timerEl.classList.add('bomb-active', 'bomb-timer-warning');
                     updateScore(-20);
+                    showBombAlert('error', '⚠️ Casi lo logras. ¡Sigue intentando!');
                     renderTimer();
                     
                     setTimeout(() => {
@@ -78,7 +94,7 @@ function initBomb() {
                             currentQIndex++;
                             loadBombQuestion();
                         }
-                    }, 1500);
+                    }, 1200);
                 }
             };
             wiresContainer.appendChild(btn);
@@ -86,7 +102,11 @@ function initBomb() {
         refreshMath();
     }
 
-    timerEl.classList.remove('bomb-active', 'text-red-600');
+    timerEl.classList.remove('bomb-active', 'bomb-timer-warning', 'text-red-600');
+    if (bombAlert) {
+        bombAlert.classList.add('hidden');
+        bombAlert.style.opacity = '0';
+    }
     renderTimer();
     loadBombQuestion();
 
