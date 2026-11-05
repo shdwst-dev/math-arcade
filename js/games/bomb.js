@@ -1,6 +1,9 @@
 function initBomb() {
     containers.bomb.classList.remove('hidden');
-    let timeLeft = 45; // 45 segundos para más margen de respuesta
+    const BOMB_START_TIME = 90; // segundos iniciales
+    const BOMB_BONUS = 8;       // segundos que se ganan al acertar
+    const BOMB_PENALTY = 4;     // segundos que se pierden al fallar
+    let timeLeft = BOMB_START_TIME;
     let questionsNeeded = 5;
     let currentQIndex = 0;
     const timerEl = document.getElementById('bomb-timer');
@@ -18,13 +21,14 @@ function initBomb() {
         showBombAlert.timeoutId = setTimeout(() => {
             bombAlert.style.opacity = '0';
             setTimeout(() => bombAlert.classList.add('hidden'), 180);
-        }, 1400);
+        }, 2200);
     }
 
     function renderTimer() {
-        timerEl.innerText = `00:${String(Math.max(timeLeft, 0)).padStart(2, '0')}`;
-        timerEl.classList.toggle('text-red-600', timeLeft <= 10);
-        timerEl.classList.toggle('bomb-timer-warning', timeLeft <= 10 && timeLeft > 0);
+        const t = Math.max(timeLeft, 0);
+        timerEl.innerText = `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`;
+        timerEl.classList.toggle('text-red-600', timeLeft <= 15);
+        timerEl.classList.toggle('bomb-timer-warning', timeLeft <= 15 && timeLeft > 0);
     }
 
     // Obtener preguntas
@@ -61,10 +65,10 @@ function initBomb() {
                 
                 if (opt.correct) {
                     updateScore(50);
-                    timeLeft += 5; // Bonus de tiempo
+                    timeLeft += BOMB_BONUS; // Bonus de tiempo
                     questionsNeeded--;
                     currentQIndex++;
-                    showBombAlert('success', '✅ ¡Muy bien!');
+                    showBombAlert('success', `✅ ¡Correcto!  +50 pts  ·  +${BOMB_BONUS} s`);
                     timerEl.classList.remove('bomb-active', 'bomb-timer-warning');
                     renderTimer();
                     void timerEl.offsetWidth;
@@ -81,10 +85,10 @@ function initBomb() {
                         correctBtn.classList.add('bg-emerald-500', 'border-4', 'border-white', 'scale-110');
                     }
 
-                    timeLeft -= 5;
+                    timeLeft -= BOMB_PENALTY;
                     timerEl.classList.add('bomb-active', 'bomb-timer-warning');
                     updateScore(-20);
-                    showBombAlert('error', '⚠️ Casi lo logras. ¡Sigue intentando!');
+                    showBombAlert('error', `❌ Incorrecto  -20 pts  ·  -${BOMB_PENALTY} s  ·  La respuesta correcta se marcó en verde`);
                     renderTimer();
                     
                     setTimeout(() => {

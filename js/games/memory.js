@@ -29,7 +29,7 @@ function initMemory() {
     // Crear HTML
     cardsData.forEach(card => {
         const cardEl = document.createElement('div');
-        cardEl.className = 'card h-40';
+        cardEl.className = 'card h-44';
         cardEl.innerHTML = `
             <div class="card-inner">
                 <div class="card-front">?</div>

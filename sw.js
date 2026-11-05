@@ -1,4 +1,4 @@
-const CACHE_NAME = 'math-arcade-v4';
+const CACHE_NAME = 'math-arcade-v5';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -11,6 +11,7 @@ const ASSETS_TO_CACHE = [
     './js/data/fundamentos.js',
     './js/data/diferencial.js',
     './js/data/integral.js',
+    './js/data/generadores.js',
     './js/games/memory.js',
     './js/games/bomb.js',
     './js/games/race.js',

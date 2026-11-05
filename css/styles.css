@@ -278,3 +278,64 @@
         .falling-item span {
             font-size: 1rem !important;
         }
+
+        /* ===== Ajustes de tamaño (v1.1): letra e imágenes más grandes ===== */
+        body {
+            font-size: 18px;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-size: 1.05rem;
+        }
+
+        .card-front {
+            font-size: 3rem;
+        }
+
+        .card-back {
+            font-size: 1.15rem !important;
+        }
+
+        #player-car {
+            font-size: 3.6rem !important;
+        }
+
+        #race-question {
+            font-size: 1.5rem !important;
+        }
+
+        .falling-item span {
+            font-size: 1.2rem !important;
+            padding: 0.25rem 0.4rem;
+        }
+
+        #bomb-timer {
+            font-size: 4rem;
+        }
+
+        #bomb-question {
+            font-size: 1.6rem !important;
+        }
+
+        .wire-btn {
+            font-size: 1.3rem !important;
+            min-height: 4rem;
+        }
+
+        #bomb-alert {
+            font-size: 1.15rem;
+            padding: 0.75rem 1.5rem;
+            text-align: center;
+        }
+
+        .help-btn {
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+
+        #top-bar-info {
+            font-size: 1.05rem;
+        }

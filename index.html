@@ -8,6 +8,7 @@
     <!-- Tailwind CSS para diseño rápido y bonito -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- MathJax para mostrar fórmulas matemáticas bonitas -->
+    <script>window.MathJax = { chtml: { scale: 1.2 } };</script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <!-- PWA Manifest -->
@@ -44,20 +45,20 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <button onclick="showSubtopicScreen('fundamentos')"
                     class="group bg-blue-900 hover:bg-blue-700 p-8 rounded-xl border-4 border-blue-500 transition-all hover:scale-105">
-                    <div class="text-4xl mb-4">📐</div>
-                    <h3 class="text-xl font-bold">Fundamentos</h3>
+                    <div class="text-6xl mb-4">📐</div>
+                    <h3 class="text-2xl font-bold">Fundamentos</h3>
                     <p class="text-sm text-gray-300 mt-2">Álgebra y Aritmética básica</p>
                 </button>
                 <button onclick="showSubtopicScreen('diferencial')"
                     class="group bg-green-900 hover:bg-green-700 p-8 rounded-xl border-4 border-green-500 transition-all hover:scale-105">
-                    <div class="text-4xl mb-4">📉</div>
-                    <h3 class="text-xl font-bold">Cálculo Diferencial</h3>
+                    <div class="text-6xl mb-4">📉</div>
+                    <h3 class="text-2xl font-bold">Cálculo Diferencial</h3>
                     <p class="text-sm text-gray-300 mt-2">Límites y Derivadas</p>
                 </button>
                 <button onclick="showSubtopicScreen('integral')"
                     class="group bg-purple-900 hover:bg-purple-700 p-8 rounded-xl border-4 border-purple-500 transition-all hover:scale-105">
-                    <div class="text-4xl mb-4">∫</div>
-                    <h3 class="text-xl font-bold">Cálculo Integral</h3>
+                    <div class="text-6xl mb-4">∫</div>
+                    <h3 class="text-2xl font-bold">Cálculo Integral</h3>
                     <p class="text-sm text-gray-300 mt-2">Áreas y Sumas</p>
                 </button>
             </div>
@@ -109,9 +110,9 @@
                         class="w-full bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group transition-all hover:scale-105">
                         <div class="absolute inset-0 bg-blue-500 opacity-10 group-hover:opacity-20"></div>
                         <div class="relative z-0">
-                            <div class="text-3xl mb-3">🃏</div>
-                            <h3 class="font-bold text-lg">Memorama Matemático</h3>
-                            <p class="text-xs text-gray-400 mt-2">Encuentra las parejas (Función y Resultado)</p>
+                            <div class="text-6xl mb-3">🃏</div>
+                            <h3 class="font-bold text-xl">Memorama Matemático</h3>
+                            <p class="text-sm text-gray-300 mt-2">Encuentra las parejas (Función y Resultado)</p>
                             <span id="hs-memory" class="text-xs text-yellow-400 mt-1 block font-bold">🏆 Mejor: 0</span>
                         </div>
                     </button>
@@ -127,9 +128,9 @@
                         class="w-full bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group transition-all hover:scale-105">
                         <div class="absolute inset-0 bg-red-500 opacity-10 group-hover:opacity-20"></div>
                         <div class="relative z-0">
-                            <div class="text-3xl mb-3">💣</div>
-                            <h3 class="font-bold text-lg">Desactiva la Bomba</h3>
-                            <p class="text-xs text-gray-400 mt-2">Responde rápido antes de que explote</p>
+                            <div class="text-6xl mb-3">💣</div>
+                            <h3 class="font-bold text-xl">Desactiva la Bomba</h3>
+                            <p class="text-sm text-gray-300 mt-2">Responde rápido antes de que explote</p>
                             <span id="hs-bomb" class="text-xs text-yellow-400 mt-1 block font-bold">🏆 Mejor: 0</span>
                         </div>
                     </button>
@@ -145,9 +146,9 @@
                         class="w-full bg-gray-800 hover:bg-gray-700 p-6 rounded-lg border border-gray-600 relative overflow-hidden group transition-all hover:scale-105">
                         <div class="absolute inset-0 bg-yellow-500 opacity-10 group-hover:opacity-20"></div>
                         <div class="relative z-0">
-                            <div class="text-3xl mb-3">🏎️</div>
-                            <h3 class="font-bold text-lg">Carrera del Saber</h3>
-                            <p class="text-xs text-gray-400 mt-2">Esquiva los errores, atrapa los aciertos</p>
+                            <div class="text-6xl mb-3">🏎️</div>
+                            <h3 class="font-bold text-xl">Carrera del Saber</h3>
+                            <p class="text-sm text-gray-300 mt-2">Esquiva los errores, atrapa los aciertos</p>
                             <span id="hs-race" class="text-xs text-yellow-400 mt-1 block font-bold">🏆 Mejor: 0</span>
                         </div>
                     </button>
@@ -376,9 +377,9 @@
                     <ul class="text-white text-sm space-y-1 list-disc list-inside">
                         <li>Lee la pregunta matemática</li>
                         <li>Selecciona el cable (respuesta) correcto</li>
-                        <li>Respuesta correcta: +50 puntos y +5 seg ⏱️</li>
-                        <li>Respuesta incorrecta: -20 puntos y -5 seg ⚠️</li>
-                        <li>Tienes 45 segundos iniciales</li>
+                        <li>Respuesta correcta: +50 puntos y +8 seg ⏱️</li>
+                        <li>Respuesta incorrecta: -20 puntos y -4 seg ⚠️</li>
+                        <li>Tienes 1:30 minutos iniciales</li>
                     </ul>
                 </div>
                 <div class="bg-yellow-400/20 p-3 rounded-lg border-2 border-yellow-400">
@@ -424,6 +425,7 @@
     <script src="js/data/fundamentos.js"></script>
     <script src="js/data/diferencial.js"></script>
     <script src="js/data/integral.js"></script>
+    <script src="js/data/generadores.js"></script>
 
     <!-- Scripts: Backend (Supabase) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>

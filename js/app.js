@@ -104,7 +104,7 @@ function showSubtopicScreen(topic) {
         // Crear botón para cada subtema
         const btn = document.createElement('button');
         btn.className = 'bg-gray-800 hover:bg-gray-700 p-4 rounded-xl border-2 border-gray-600 transition-all hover:scale-105 flex flex-col items-center justify-center text-center h-full';
-        btn.innerHTML = `<div class="text-3xl mb-2">${sub.emoji}</div><h3 class="font-bold text-sm leading-tight">${sub.nombre}</h3>`;
+        btn.innerHTML = `<div class="text-5xl mb-2">${sub.emoji}</div><h3 class="font-bold text-base leading-tight">${sub.nombre}</h3>`;
         btn.onclick = () => selectSubtopic(sub.key);
         container.appendChild(btn);
     });
